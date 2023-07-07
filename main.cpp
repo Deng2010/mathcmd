@@ -1,3 +1,4 @@
+#include "programs/calc"
 #include "programs/solvex"
 using namespace std;
 string com;

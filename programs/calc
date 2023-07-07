@@ -1,0 +1,26 @@
+#include <iostream>
+using namespace std;
+string _com;
+int a, b;
+inline int calc() {
+  do {
+    cin >> _com;
+    if (_com == "add") {
+      cin >> a >> b;
+      cout << a + b << endl;
+    }
+    if (_com == "sub") {
+      cin >> a >> b;
+      cout << a - b << endl;
+    }
+    if (_com == "mul") {
+      cin >> a >> b;
+      cout << a * b << endl;
+    }
+    if (_com == "dil") {
+      cin >> a >> b;
+      cout << a / b << endl;
+    }
+  } while (_com != "exit");
+  return 0;
+}
