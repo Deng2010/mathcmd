@@ -1,4 +1,2 @@
 # mathcmd
-# mathcmd
-# mathcmd
-# mathcmd
+A simple program to solve math problems
