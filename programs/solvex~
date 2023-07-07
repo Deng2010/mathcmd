@@ -1,0 +1,11 @@
+#include <stdio.h>
+#include <string>
+using namespace std;
+inline void solvex() {
+  char opt[27];
+  while (opt[0] != 'e' && opt[1] != 'n' && opt[2] != 'd') {
+    printf("mathcmd->solvex> ");
+    scanf("%s", opt);
+    if (opt ==)
+  }
+}
