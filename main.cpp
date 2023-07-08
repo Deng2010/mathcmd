@@ -1,13 +1,7 @@
-#include "programs/calc"
-#include "programs/solvex"
+#include "programs/mathcmd"
 using namespace std;
 string com;
 int main() {
-  while (com != "exit") {
-    printf("mathcmd> ");
-    cin >> com;
-    if (com == "solvex")
-      solvex();
-  }
+  mathcmd();
   return 0;
 }
