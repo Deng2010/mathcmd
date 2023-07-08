@@ -4,8 +4,8 @@ double a, b;
 string _com;
 inline int mathcmd() {
   do {
-    cout<<"mathcmd> ";
-    cin>>_com;
+    cout << "mathcmd> ";
+    cin >> _com;
     if (_com == "add") {
       cin >> a >> b;
       cout << a + b << endl;
