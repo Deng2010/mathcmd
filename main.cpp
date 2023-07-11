@@ -1,4 +1,4 @@
-#include "programs/mathcmd"
+#include "programs/mathcmd.hpp"
 using namespace std;
 string com;
 int main() {
