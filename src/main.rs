@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 fn main() {
-    let __version = String::from("0.0.3");
+    let __version = String::from("0.1.0");
     println!("MATHcmd v{}", __version);
     loop {
         print!("mathcmd> ");
