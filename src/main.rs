@@ -1,4 +1,41 @@
 use std::io::{self, Write};
+fn main() {
+    let __version = String::from("0.0.3");
+    println!("MATHcmd v{}", __version);
+    loop {
+        print!("mathcmd> ");
+        io::stdout().flush().unwrap();
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("ERROR: Unknown command!");
+        let mut input_split = input.split_whitespace();
+        let command = input_split.next().unwrap();
+        if command == "+" {
+            let a: f64 = input_split.next().unwrap().parse().unwrap();
+            let b: f64 = input_split.next().unwrap().parse().unwrap();
+            println!("{}", a + b);
+        } else if command == "-" {
+            let a: f64 = input_split.next().unwrap().parse().unwrap();
+            let b: f64 = input_split.next().unwrap().parse().unwrap();
+            println!("{}", a - b);
+        } else if command == "*" {
+            let a: f64 = input_split.next().unwrap().parse().unwrap();
+            let b: f64 = input_split.next().unwrap().parse().unwrap();
+            println!("{}", a * b);
+        } else if command == "/" {
+            let a: f64 = input_split.next().unwrap().parse().unwrap();
+            let b: f64 = input_split.next().unwrap().parse().unwrap();
+            println!("{}", a / b);
+        } else if command == "solvex" {
+            solvex_cmd();
+        } else if command == "exit" {
+            return;
+        } else {
+            println!("Error: {} is undefined!", command);
+        }
+    }
+}
 pub fn solvex_cmd() {
     let mut coe: [f64; 2] = [0.0, 0.0];
     loop {
@@ -48,42 +85,6 @@ pub fn solvex_cmd() {
             coe[1] = 0.0;
         } else if command == "exit" {
             return;
-        }
-    }
-}
-fn main() {
-    println!("MATHcmd v0.0.2");
-    loop {
-        print!("mathcmd> ");
-        io::stdout().flush().unwrap();
-        let mut input = String::new();
-        io::stdin()
-            .read_line(&mut input)
-            .expect("ERROR: Unknown command!");
-        let mut input_split = input.split_whitespace();
-        let command = input_split.next().unwrap();
-        if command == "+" {
-            let a: f64 = input_split.next().unwrap().parse().unwrap();
-            let b: f64 = input_split.next().unwrap().parse().unwrap();
-            println!("{}", a + b);
-        } else if command == "-" {
-            let a: f64 = input_split.next().unwrap().parse().unwrap();
-            let b: f64 = input_split.next().unwrap().parse().unwrap();
-            println!("{}", a - b);
-        } else if command == "*" {
-            let a: f64 = input_split.next().unwrap().parse().unwrap();
-            let b: f64 = input_split.next().unwrap().parse().unwrap();
-            println!("{}", a * b);
-        } else if command == "/" {
-            let a: f64 = input_split.next().unwrap().parse().unwrap();
-            let b: f64 = input_split.next().unwrap().parse().unwrap();
-            println!("{}", a / b);
-        } else if command == "solvex" {
-            solvex_cmd();
-        } else if command == "exit" {
-            return;
-        } else {
-            println!("Error: {} is undefined!", command);
         }
     }
 }
