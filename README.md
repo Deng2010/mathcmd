@@ -1,22 +1,17 @@
-# mathcmd
+# MATHcmd
 ![](./mathcmd.png)\
 A simple program to solve math problems.
 
-## install
+## MATHcmd restarted
+MATHcmd is now written in Rust, instead of C++.
 
-### install from source code
+## Install
+
+### Install from cargo
+
 ```bash
 git clone https://github.com/Deng2010/mathcmd
 cd mathcmd
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
+cargo build
+cargo install --path .
 ```
-
-### install from package manager
-
-Arch
-
-You can get the .pkg.tar.zst file from the RELEASE page
