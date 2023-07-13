@@ -1,9 +1,16 @@
 pub mod solvex {
+    use colored::*;
     use std::io::{self, Write};
     pub fn solvex_cmd() {
         let mut coe: [f64; 2] = [0.0, 0.0];
         loop {
-            print!("mathcmd->solvex> ");
+            print!(
+                "{}{}{}{} ",
+                "mathcmd".bright_yellow(),
+                "->".bright_red(),
+                "solvex".bright_yellow(),
+                ">".bright_green()
+            );
             io::stdout().flush().unwrap();
             let mut input = String::new();
             io::stdin()
