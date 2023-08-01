@@ -1,7 +1,7 @@
 pub mod solvex {
     use colored::*;
     use std::io::{self, Write};
-    pub fn solvex_cmd() {
+    pub fn solvex_mode() {
         let mut coe: [f64; 2] = [0.0, 0.0];
         loop {
             print!(
@@ -12,14 +12,14 @@ pub mod solvex {
                 ">".bright_green()
             );
             io::stdout().flush().unwrap();
-            let mut input = String::new();
+            let mut _input = String::new();
             io::stdin()
-                .read_line(&mut input)
+                .read_line(&mut _input)
                 .expect("ERROR: Unknown command!");
-            let mut input_split = input.split_whitespace();
-            let command = input_split.next().unwrap();
+            let mut input = _input.split_whitespace();
+            let command = input.next().unwrap();
             if command == "left" {
-                let mut item: String = input_split.next().unwrap().to_string();
+                let mut item: String = input.next().unwrap().to_string();
                 let i = item.pop().unwrap();
                 if i == 'x' {
                     let num: f64;
@@ -35,7 +35,7 @@ pub mod solvex {
                     coe[0] -= num;
                 }
             } else if command == "right" {
-                let mut item: String = input_split.next().unwrap().to_string();
+                let mut item: String = input.next().unwrap().to_string();
                 let i = item.pop().unwrap();
                 if i == 'x' {
                     let num: f64;
