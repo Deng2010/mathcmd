@@ -5,11 +5,10 @@ pub mod solvex {
         let mut coe: [f64; 2] = [0.0, 0.0];
         loop {
             print!(
-                "{}{}{}{} ",
-                "mathcmd".bright_yellow(),
-                "->".bright_red(),
-                "solvex".bright_yellow(),
-                ">".bright_green()
+                "{0}{1}{2}{1} ",
+                "mathcmd".bright_green(),
+                ">".bright_cyan(),
+                "solvex".bright_green(),
             );
             io::stdout().flush().unwrap();
             let mut _input = String::new();
@@ -39,7 +38,7 @@ pub mod solvex {
                 let i = item.pop().unwrap();
                 if i == 'x' {
                     let num: f64;
-                    if item.len() == 0 {
+                    if item.is_empty() {
                         num = 1.0;
                     } else {
                         num = item.parse().unwrap();
