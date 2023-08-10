@@ -6,7 +6,7 @@ use colored::*;
 use mathcmd_lib::core;
 use std::io::{self, Write};
 fn main() {
-    let __version = String::from("0.1.1");
+    let __version = String::from("0.1.2");
     println!("MATHcmd v{}", __version);
     loop {
         print!("{}{} ", "mathcmd".bright_green(), ">".bright_cyan());
