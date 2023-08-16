@@ -1,9 +1,7 @@
 mod mathcmd_lib;
 mod solvex;
-mod calc;
 
 use mathcmd_lib::core;
-use colored::*;
 use std::io;
 fn main() {
     let __version = String::from("0.1.1");
