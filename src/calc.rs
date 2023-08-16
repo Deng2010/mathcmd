@@ -1,13 +1,12 @@
 pub mod calc {
     pub fn calc(a: f64, b: f64, sym: char) {
-        if sym == '+' {
-            println!("{}", a + b);
-        } else if sym == '-' {
-            println!("{}", a - b);
-        } else if sym == '*' {
-            println!("{}", a * b);
-        } else if sym == '/' {
-            println!("{}", a / b);
+        match sym {
+            '+' => println!("{}", a + b),
+            '-' => println!("{}", a - b),
+            '*' => println!("{}", a * b),
+            '/' => println!("{}", a / b),
+            '^' => println!("{}", f64::powf(a, b)),
+            _default => println!("ERROR: Unsupported operation!"),
         }
     }
 }

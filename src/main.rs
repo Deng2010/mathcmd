@@ -27,12 +27,12 @@ fn main() {
             let sym: char = input.next().unwrap().parse().unwrap();
             let b: f64 = input.next().unwrap().parse().unwrap();
             calc::calc::calc(a, b, sym);
-        } else if command == "solvex" {
-            solvex::solvex::solvex_mode();
-        } else if command == "exit" {
-            return;
-        } else {
-            println!("ERROR: {} is undefined!", command);
+            continue;
+        }
+        match command {
+            "solvex" => solvex::solvex::solvex_mode(),
+            "exit" => return,
+            _default => println!("ERROR: {} is undefined!", command),
         }
     }
 }

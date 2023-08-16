@@ -22,44 +22,48 @@ pub mod solvex {
                 continue;
             }
             let command = __command.unwrap();
-            if command == "left" {
-                let mut item: String = input.next().unwrap().to_string();
-                let i = item.pop().unwrap();
-                if i == 'x' {
-                    let num: f64;
-                    if item.len() == 0 {
-                        num = 1.0;
+            match command {
+                "left" => {
+                    let mut item: String = input.next().unwrap().to_string();
+                    let i = item.pop().unwrap();
+                    if i == 'x' {
+                        let num: f64;
+                        if item.len() == 0 {
+                            num = 1.0;
+                        } else {
+                            num = item.parse().unwrap();
+                        }
+                        coe[1] += num;
                     } else {
-                        num = item.parse().unwrap();
+                        item.push(i);
+                        let num: f64 = item.parse().unwrap();
+                        coe[0] -= num;
                     }
-                    coe[1] += num;
-                } else {
-                    item.push(i);
-                    let num: f64 = item.parse().unwrap();
-                    coe[0] -= num;
                 }
-            } else if command == "right" {
-                let mut item: String = input.next().unwrap().to_string();
-                let i = item.pop().unwrap();
-                if i == 'x' {
-                    let num: f64;
-                    if item.len() == 0 {
-                        num = 1.0;
+                "right" => {
+                    let mut item: String = input.next().unwrap().to_string();
+                    let i = item.pop().unwrap();
+                    if i == 'x' {
+                        let num: f64;
+                        if item.len() == 0 {
+                            num = 1.0;
+                        } else {
+                            num = item.parse().unwrap();
+                        }
+                        coe[1] -= num;
                     } else {
-                        num = item.parse().unwrap();
+                        item.push(i);
+                        let num: f64 = item.parse().unwrap();
+                        coe[0] += num;
                     }
-                    coe[1] -= num;
-                } else {
-                    item.push(i);
-                    let num: f64 = item.parse().unwrap();
-                    coe[0] += num;
                 }
-            } else if command == "end" {
-                println!("{}", coe[0] / coe[1]);
-                coe[0] = 0.0;
-                coe[1] = 0.0;
-            } else if command == "exit" {
-                return;
+                "end" => {
+                    println!("{}", coe[0] / coe[1]);
+                    coe[0] = 0.0;
+                    coe[1] = 0.0;
+                }
+                "exit" => return,
+                _default => println!("ERROR: Unknown command!"),
             }
         }
     }
