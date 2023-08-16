@@ -7,7 +7,6 @@ use mathcmd_lib::core;
 use std::io::{self, Write};
 fn main() {
     let __version = String::from(r#"0.1.2"#);
-    println!("MATHcmd v{}", __version);
     loop {
         println!("{}", "mathcmd".bright_green());
         print!("{} ", ">".bright_cyan());
@@ -31,8 +30,9 @@ fn main() {
         }
         match command {
             "solvex" => solvex::solvex::solvex_mode(),
-            "exit" => return,
-            _default => println!("ERROR: {} is undefined!", command),
+            "exit" | "ex" => return,
+            "version" | "ver" | "v" => println!("MATHcmd v{}", __version),
+            _default => println!("ERROR: Unknown command!"),
         }
     }
 }

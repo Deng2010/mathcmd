@@ -23,7 +23,7 @@ pub mod solvex {
             }
             let command = __command.unwrap();
             match command {
-                "left" => {
+                "left" | "le" | "l" => {
                     let mut item: String = input.next().unwrap().to_string();
                     let i = item.pop().unwrap();
                     if i == 'x' {
@@ -40,7 +40,7 @@ pub mod solvex {
                         coe[0] -= num;
                     }
                 }
-                "right" => {
+                "right" | "ri" | "r" => {
                     let mut item: String = input.next().unwrap().to_string();
                     let i = item.pop().unwrap();
                     if i == 'x' {
@@ -57,12 +57,12 @@ pub mod solvex {
                         coe[0] += num;
                     }
                 }
-                "end" => {
+                "end" | "ed" => {
                     println!("{}", coe[0] / coe[1]);
                     coe[0] = 0.0;
                     coe[1] = 0.0;
                 }
-                "exit" => return,
+                "exit" | "ex" => return,
                 _default => println!("ERROR: Unknown command!"),
             }
         }
