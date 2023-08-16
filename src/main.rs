@@ -1,20 +1,27 @@
+mod calc;
 mod mathcmd_lib;
 mod solvex;
 
+use colored::*;
 use mathcmd_lib::core;
-use std::io;
+use std::io::{self, Write};
 fn main() {
-    let __version = String::from("0.1.1");
+    let __version = String::from(r#"0.1.2"#);
     println!("MATHcmd v{}", __version);
     loop {
-        println!("{}{} ", "mathcmd".bright_green(), ">".bright_cyan());
-        // io::stdout().flush().unwrap();
+        println!("{}", "mathcmd".bright_green());
+        print!("{} ", ">".bright_cyan());
+        io::stdout().flush().unwrap();
         let mut _input = String::new();
         io::stdin()
             .read_line(&mut _input)
             .expect("ERROR: Unknown command!");
         let mut input = _input.split_whitespace();
-        let command = input.next().expect("FATAL ERROR: No command inputed!");
+        let __command = input.next();
+        if __command.is_none() {
+            continue;
+        }
+        let command = __command.unwrap();
         if core::is_num(command) {
             let a: f64 = command.parse().unwrap();
             let sym: char = input.next().unwrap().parse().unwrap();

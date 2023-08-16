@@ -4,20 +4,24 @@ pub mod solvex {
     pub fn solvex_mode() {
         let mut coe: [f64; 2] = [0.0, 0.0];
         loop {
-            print!(
-                "{}{}{}{} ",
-                "mathcmd".bright_yellow(),
-                "->".bright_red(),
-                "solvex".bright_yellow(),
-                ">".bright_green()
+            println!(
+                "{}{}{}",
+                "mathcmd".bright_green(),
+                "->".bright_cyan(),
+                "solvex".bright_green()
             );
+            print!("{} ", ">".bright_cyan());
             io::stdout().flush().unwrap();
             let mut _input = String::new();
             io::stdin()
                 .read_line(&mut _input)
                 .expect("ERROR: Unknown command!");
             let mut input = _input.split_whitespace();
-            let command = input.next().unwrap();
+            let __command = input.next();
+            if __command.is_none() {
+                continue;
+            }
+            let command = __command.unwrap();
             if command == "left" {
                 let mut item: String = input.next().unwrap().to_string();
                 let i = item.pop().unwrap();
