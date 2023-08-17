@@ -23,7 +23,7 @@ fn main() {
         let command = __command.unwrap();
         if core::is_num(command) {
             let a: f64 = command.parse().unwrap();
-            let sym: char = input.next().unwrap().parse().unwrap();
+            let sym = input.next().unwrap();
             let b: f64 = input.next().unwrap().parse().unwrap();
             calc::calc::calc(a, b, sym);
             continue;
