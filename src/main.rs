@@ -1,9 +1,7 @@
 mod calc;
-mod mathcmd_lib;
 mod solvex;
 
 use colored::*;
-use mathcmd_lib::core;
 use std::io::{self, Write};
 fn main() {
     let __version = String::from(r#"0.1.2"#);
@@ -21,7 +19,7 @@ fn main() {
             continue;
         }
         let command = __command.unwrap();
-        if core::is_num(command) {
+        if command.parse::<f64>().is_ok() {
             let a: f64 = command.parse().unwrap();
             let sym = input.next().unwrap();
             let b: f64 = input.next().unwrap().parse().unwrap();
