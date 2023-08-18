@@ -28,7 +28,7 @@ pub mod solvex {
                     let i = item.pop().unwrap();
                     if i == 'x' {
                         let num: f64;
-                        if item.len() == 0 {
+                        if item.is_empty() {
                             num = 1.0;
                         } else {
                             num = item.parse().unwrap();
@@ -45,7 +45,7 @@ pub mod solvex {
                     let i = item.pop().unwrap();
                     if i == 'x' {
                         let num: f64;
-                        if item.len() == 0 {
+                        if item.is_empty() {
                             num = 1.0;
                         } else {
                             num = item.parse().unwrap();

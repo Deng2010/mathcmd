@@ -3,7 +3,10 @@ mod solvex;
 
 use colored::*;
 use std::io::{self, Write};
+
 fn main() {
+    let lg: fn(f64) -> f64 = f64::log2;
+    let ln = f64::ln;
     let __version = String::from(r#"0.1.2"#);
     loop {
         println!("{}", "mathcmd".bright_green());
@@ -28,6 +31,14 @@ fn main() {
         }
         match command {
             "solvex" => solvex::solvex::solvex_mode(),
+            "lg" => {
+                let a: f64 = input.next().unwrap().parse().unwrap();
+                println!("{}", lg(a));
+            }
+            "ln" => {
+                let a: f64 = input.next().unwrap().parse().unwrap();
+                println!("{}", ln(a));
+            }
             "exit" | "ex" => return,
             "version" | "ver" | "v" => println!("MATHcmd v{}", __version),
             _default => println!("ERROR: Unknown command!"),
