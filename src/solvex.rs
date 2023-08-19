@@ -1,5 +1,4 @@
-pub mod solvex {
-    use colored::*;
+ use colored::*;
     use std::io::{self, Write};
     pub fn solvex_mode() {
         let mut coe: [f64; 2] = [0.0, 0.0];
@@ -27,10 +26,8 @@ pub mod solvex {
                     let mut item: String = input.next().unwrap().to_string();
                     let i = item.pop().unwrap();
                     if i == 'x' {
-                        let num: f64;
-                        if item.is_empty() {
-                            num = 1.0;
-                        } else {
+                        let mut num: f64 = 1.0;
+                        if !item.is_empty() {
                             num = item.parse().unwrap();
                         }
                         coe[1] += num;
@@ -44,10 +41,8 @@ pub mod solvex {
                     let mut item: String = input.next().unwrap().to_string();
                     let i = item.pop().unwrap();
                     if i == 'x' {
-                        let num: f64;
-                        if item.is_empty() {
-                            num = 1.0;
-                        } else {
+                        let mut num: f64 = 1.0;
+                        if !item.is_empty() {
                             num = item.parse().unwrap();
                         }
                         coe[1] -= num;
@@ -67,4 +62,4 @@ pub mod solvex {
             }
         }
     }
-}
+

@@ -1,14 +1,16 @@
-pub mod calc {
-    pub fn calc(a: f64, b: f64, sym: &str) {
+ pub fn calculator(a: f64, b: f64, sym: &str) -> f64 {
         match sym {
-            "+" => println!("{}", a + b),
-            "-" => println!("{}", a - b),
-            "*" => println!("{}", a * b),
-            "/" => println!("{}", a / b),
-            "%" => println!("{}", a % b),
-            "^" => println!("{}", f64::powf(a, b)),
-            "log" => println!("{}", f64::log(a, b)),
-            _default => println!("ERROR: Unsupported operation!"),
+            "+" => a + b,
+            "-" => a - b,
+            "*" => a * b,
+            "/" => a / b,
+            "%" => a % b,
+            "^" => f64::powf(a, b),
+            "log" => f64::log(a, b),
+            _default => {
+                println!("ERROR: Unsupported operation!");
+                0.0
+            }
         }
     }
-}
+
