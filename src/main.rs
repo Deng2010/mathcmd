@@ -3,12 +3,13 @@ mod solvex;
 
 use colored::*;
 use std::io::{self, Write};
+use std::str::SplitWhitespace;
 
 fn main() {
-    let lg = f64::log2;
-    let ln = f64::ln;
-    let calculator = calc::calculator;
-    let solvex = solvex::solvex_mode;
+    let lg: fn(f64) -> f64 = f64::log2;
+    let ln: fn(f64) -> f64 = f64::ln;
+    let calculator: fn(f64, f64, &str) -> f64 = calc::calculator;
+    let solvex: fn() = solvex::solvex_mode;
 
 
     let __version = String::from(r#"0.1.2"#);
@@ -25,16 +26,16 @@ fn main() {
         io::stdin()
             .read_line(&mut _input)
             .expect("ERROR: Unknown command!");
-        let mut input = _input.split_whitespace();
+        let mut input: SplitWhitespace = _input.split_whitespace();
         let __command = input.next();
         if __command.is_none() {
             continue;
         }
-        let command = __command.unwrap();
+        let command: &str = __command.unwrap();
 
         if command.parse::<f64>().is_ok() { // command is digit
             let a: f64 = command.parse().unwrap();
-            let sym = input.next().unwrap();
+            let sym: &str = input.next().unwrap();
             let b: f64 = input.next().unwrap().parse().unwrap();
             _cache = calculator(a, b, sym);
             println!("{}", _cache);
