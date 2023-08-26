@@ -1,6 +1,5 @@
 use colored::*;
 use std::io::{self, Write};
-map
 pub fn command_prompt() {
     println!("{}", "mathcmd".bright_green());
     print!("{} ", ">".bright_cyan());
