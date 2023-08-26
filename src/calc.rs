@@ -13,4 +13,3 @@ pub fn calculator(a: f64, b: f64, sym: &str) -> f64 {
         }
     }
 }
-

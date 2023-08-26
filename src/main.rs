@@ -1,8 +1,9 @@
 mod calc;
+mod output;
 mod solvex;
 
-use colored::*;
-use std::io::{self, Write};
+use crate::output::{command_prompt, output_cache, output_ver};
+use std::io;
 use std::str::SplitWhitespace;
 
 fn main() {
@@ -11,21 +12,17 @@ fn main() {
     let calculator: fn(f64, f64, &str) -> f64 = calc::calculator;
     let solvex: fn() = solvex::solvex_mode;
 
-
-    let __version = String::from(r#"0.1.2"#);
+    let mut _version: String = String::from("0.1.2");
     let mut _cache: f64 = 0.0;
-
+    let mut _mem: f64 = 0.0;
 
     loop {
-        println!("{}", "mathcmd".bright_green());
-        print!("{} ", ">".bright_cyan());
-        io::stdout().flush().unwrap();
-
+        command_prompt();
 
         let mut _input = String::new();
         io::stdin()
             .read_line(&mut _input)
-            .expect("ERROR: Unknown command!");
+            .expect("ERROR: Unexpected error!");
         let mut input: SplitWhitespace = _input.split_whitespace();
         let __command = input.next();
         if __command.is_none() {
@@ -33,31 +30,51 @@ fn main() {
         }
         let command: &str = __command.unwrap();
 
-        if command.parse::<f64>().is_ok() { // command is digit
+        if command.parse::<f64>().is_ok() {
+            // command is digit
             let a: f64 = command.parse().unwrap();
             let sym: &str = input.next().unwrap();
             let b: f64 = input.next().unwrap().parse().unwrap();
             _cache = calculator(a, b, sym);
-            println!("{}", _cache);
+            output_cache(_cache);
             continue;
         }
-        match command { // else
+        match command {
+            // else
             "+" | "-" | "*" | "/" | "^" | "%" | "log" => {
                 let b: f64 = input.next().unwrap().parse().unwrap();
                 _cache = calculator(_cache, b, command);
-                println!("{}", _cache);
-            },
+                output_cache(_cache);
+            }
             "solvex" => solvex(),
             "lg" => {
-                let a: f64 = input.next().unwrap().parse().unwrap();
-                println!("{}", lg(a));
+                if input.next().is_some() {
+                    let a: f64 = input.next().unwrap().parse().unwrap();
+                    _cache = lg(a);
+                }
+                output_cache(_cache);
             }
             "ln" => {
-                let a: f64 = input.next().unwrap().parse().unwrap();
-                println!("{}", ln(a));
+                if input.next().is_some() {
+                    let a: f64 = input.next().unwrap().parse().unwrap();
+                    _cache = ln(a);
+                }
+                output_cache(_cache);
+            }
+            "m+" => _mem += _cache,
+            "m-" => _mem -= _cache,
+            "mr" => {
+                _cache = _mem;
+                output_cache(_cache);
+            }
+            "mc" => _mem = 0.0,
+            "mrc" => {
+                _mem += _cache;
+                output_cache(_cache);
+                _mem = 0.0;
             }
             "exit" | "ex" => return,
-            "version" | "ver" | "v" => println!("MATHcmd v{}", __version),
+            "version" | "ver" | "v" => output_ver(&mut _version), // println!("MATHcmd v{}", __version),
             _default => println!("ERROR: Unknown command!"),
         }
     }
