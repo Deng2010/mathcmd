@@ -74,7 +74,7 @@ fn main() {
                 _mem = 0.0;
             }
             "exit" | "ex" => return,
-            "version" | "ver" | "v" => output_ver(&mut _version), // println!("MATHcmd v{}", __version),
+            "version" | "ver" | "v" => output_ver(&mut _version),
             _default => println!("ERROR: Unknown command!"),
         }
     }
