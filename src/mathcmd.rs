@@ -11,7 +11,7 @@ pub fn mathcmd_main() {
     let mut _input = String::new();
     let lg: fn(f64) -> f64 = f64::log2;
     let ln: fn(f64) -> f64 = f64::ln;
-    let mut _version: String = String::from("0.1.2");
+    let mut _version: String = String::from("0.2.0");
     let mut _cache: f64 = 0.0;
     let mut _mem: f64 = 0.0;
 
