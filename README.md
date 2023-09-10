@@ -1,9 +1,13 @@
 # MATHcmd
-![](./mathcmd.png)\
-A simple program to solve math problems.
+```
+                 _   _                        _ 
+ _ __ ___   __ _| |_| |__   ___ _ __ ___   __| |
+| '_ ` _ \ / _` | __| '_ \ / __| '_ ` _ \ / _` |
+| | | | | | (_| | |_| | | | (__| | | | | | (_| |
+|_| |_| |_|\__,_|\__|_| |_|\___|_| |_| |_|\__,_|
 
-## MATHcmd restarted
-MATHcmd is now written in Rust, instead of C++.
+—— A simple program to solve math problems.
+```
 
 ## Install
 

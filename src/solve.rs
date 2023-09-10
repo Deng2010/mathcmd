@@ -1,9 +1,9 @@
 use std::io;
 use std::str::SplitWhitespace;
 
-use crate::output::command_prompt;
+use crate::output::{command_prompt, output_error};
 
-fn _operate(coe: &mut [f64; 2], input: &mut SplitWhitespace, op_type: String) {
+fn _operate(coe: &mut Vec<f64>, input: &mut SplitWhitespace, op_type: String) {
     let mut item: String = input.next().unwrap().to_string();
     let i: char = item.pop().unwrap();
     let coes: usize;
@@ -26,13 +26,15 @@ fn _operate(coe: &mut [f64; 2], input: &mut SplitWhitespace, op_type: String) {
 }
 
 pub fn solve_function_one_one() {
-    let mut coe: [f64; 2] = [0.0, 0.0];
+    // 1. 输入系数
+    let mut coe: Vec<f64> = vec![0.0, 0.0];  
+    // 2. 输入操作符
     let mut _input = String::new();
     loop {
         command_prompt("mathcmd->solve".to_string());
         io::stdin()
             .read_line(&mut _input)
-            .expect("ERROR: Unknown command!");
+            .unwrap();
         let mut input: SplitWhitespace = _input.split_whitespace();
         let __command = input.next();
         if __command.is_none() {
@@ -49,7 +51,7 @@ pub fn solve_function_one_one() {
                 coe[1] = 0.0;
             }
             "exit" | "ex" => return,
-            _default => println!("ERROR: Unknown command!"),
+            _default => output_error("Error.Unknown_command"),
         }
         _input = String::new();
     }

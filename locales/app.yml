@@ -1,0 +1,66 @@
+_version: 2
+
+Error.Unknown_command:
+  en: "ERROR: Unknown command"
+  zh-CN: "错误: 未知命令"
+  fr: "ERREUR: Command inconnue"
+
+Error.Unsupported_operator:
+  en: "ERROR: Unsupported operator"
+  zh-CN: "错误: 不支持的运算符"
+  fr: "ERREUR: Opérateur non supporté"
+
+Exit:
+  en: Program exited with code %{code}
+  zh-CN: 程序已退出，代码为 %{code}
+  fr: Programme exitant avec code %{code}
+
+Help:
+  en: |
+    Operations:
+      a + b       - Addition
+      a - b       - Subtraction
+      a * b       - Multiplication
+      a / b       - Division
+      a % b       - Modulus
+      a ^ b       - Exponentiation
+      a log b     - Logarithm
+      ln a        - Natural logarithm
+    Commands:
+      exit        - Exit the program
+      help        - Show this help message
+      version     - Show the version of this program
+      solve       - Solve a math equation
+
+  zh-CN: |
+    操作:
+      a + b       - 加法
+      a - b       - 减法
+      a * b       - 乘法
+      a / b       - 除法
+      a % b       - 取模
+      a ^ b       - 幂
+      a log b     - 对数
+      ln a        - 自然对数
+    命令:
+      exit        - 退出程序
+      help        - 显示帮助信息
+      version     - 显示程序版本
+      solve       - 求解数学方程
+
+  fr: |
+    Opérations:
+      a + b       - Addition
+      a - b       - Soustraction
+      a * b       - Multiplication
+      a / b       - Division
+      a % b       - Modulo
+      a ^ b       - Puissance
+      a log b     - Logarithme
+      ln a        - Logarithme naturel
+    Commandes:
+      exit        - Quitter le programme
+      help        - Afficher cette aide
+      version     - Afficher la version de ce programme
+      solve       - Résoudre une équation mathématique
+      
