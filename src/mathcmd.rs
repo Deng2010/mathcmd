@@ -10,7 +10,7 @@ pub fn mathcmd_main() {
     let mut _input = String::new();
     let lg: fn(f64) -> f64 = f64::log2;
     let ln: fn(f64) -> f64 = f64::ln;
-    let mut _version: String = String::from("0.2.0");
+    let mut _version: String = String::from("0.2.1");
     let mut _cache: Result<f64, &str> = Ok(0.0);
     let mut _digit: f64 = 0.0;
     let mut _mem: f64 = 0.0;
