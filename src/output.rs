@@ -6,15 +6,22 @@ pub fn command_prompt(_str: String) {
     print!("{} ", ">".bright_cyan());
     io::stdout().flush().unwrap();
 }
-pub fn output_cache(_cache: f64) {
-    println!("{}", ("= ".to_string() + &_cache.to_string()).bold().cyan());
-}
 pub fn output_ver(_version: &mut String) {
     println!("MATHcmd v{}", _version);
 }
 pub fn output_error(_type: &str) {
     println!("{}", t!(_type).bold().red());
 }
-pub fn output_exit(_code: i32) {
-    println!("{}", t!("Exit", code = _code).bold().blue());
+pub fn output_result(_result: Result<f64, &str>) {
+    match _result {
+        Ok(x) => println!("{}", ("= ".to_string() + &x.to_string()).bold().cyan()),
+        Err(x) => output_error(x),
+    }
+}
+pub fn output_cache(_result: Result<f64, &str>, _digit: &mut f64) {
+    output_result(_result);
+    match _result {
+        Ok(x) => *_digit = x,
+        Err(_) => (),
+    }
 }
