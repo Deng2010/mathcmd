@@ -1,14 +1,35 @@
 _version: 2
 
-Error.Unknown_command:
-  en: "ERROR: Unknown command"
-  zh-CN: "错误: 未知命令"
-  fr: "ERREUR: Command inconnue"
+Error:
+  Unknown_Command:
+    en: "ERROR: Unknown command"
+    zh-CN: "错误: 未知命令"
+    fr: "ERREUR: Command inconnue"
 
-Error.Unsupported_operator:
-  en: "ERROR: Unsupported operator"
-  zh-CN: "错误: 不支持的运算符"
-  fr: "ERREUR: Opérateur non supporté"
+  Unsupported_Operator:
+    en: "ERROR: Unsupported operator"
+    zh-CN: "错误: 不支持的运算符"
+    fr: "ERREUR: Opérateur non supporté"
+
+  Need_More_Arguments:
+    en: "ERROR: Need more arguments"
+    zh-CN: "错误: 需要更多参数"
+    fr: "ERREUR: Il manque des arguments"
+
+  Invalid_Argument:
+    en: "ERROR: Invalid argument"
+    zh-CN: "错误: 无效参数"
+    fr: "ERREUR: Argument invalide"
+  The_Cache_Is_Empty:
+    en: "ERROR: The cache is empty"
+    zh-CN: "错误: 缓存为空"
+    fr: "ERREUR: Le cache est vide"
+
+Warning:
+  Unable_to_get_current_locale:
+    en: "WARNING: Unable to get current locale"
+    zh-CN: "警告: 无法获取当前语言"
+    fr: "AVERTISSEMENT: Impossible de récupérer la locale courante"
 
 Exit:
   en: Program exited with code %{code}
@@ -16,51 +37,60 @@ Exit:
   fr: Programme exitant avec code %{code}
 
 Help:
-  en: |
-    Operations:
-      a + b       - Addition
-      a - b       - Subtraction
-      a * b       - Multiplication
-      a / b       - Division
-      a % b       - Modulus
-      a ^ b       - Exponentiation
-      a log b     - Logarithm
-      ln a        - Natural logarithm
-    Commands:
-      exit        - Exit the program
-      help        - Show this help message
-      version     - Show the version of this program
-      solve       - Solve a math equation
+  main:
+    zh-CN: |
+      运算:
+        a + b       - 加法
+        a - b       - 减法
+        a * b       - 乘法
+        a / b       - 除法
+        a % b       - 取模
+        a ^ b       - 幂
+        a log b     - 对数
+        ln a        - 自然对数
+        lg a        - 底为2的对数
+        sqrt a      - 平方根
+        cbrt a      - 立方根
+      命令:
+        exit | ex   - 退出程序
+        help | h    - 显示帮助信息
+        ver  | v    - 显示程序版本
+        solve       - 求解数学方程
 
-  zh-CN: |
-    操作:
-      a + b       - 加法
-      a - b       - 减法
-      a * b       - 乘法
-      a / b       - 除法
-      a % b       - 取模
-      a ^ b       - 幂
-      a log b     - 对数
-      ln a        - 自然对数
-    命令:
-      exit        - 退出程序
-      help        - 显示帮助信息
-      version     - 显示程序版本
-      solve       - 求解数学方程
+    en: |
+      Operators:
+        a + b       - Addition
+        a - b       - Subtraction
+        a * b       - Multiplication
+        a / b       - Division
+        a % b       - Modulus
+        a ^ b       - Exponentiation
+        a log b     - Logarithm
+        ln a        - Natural logarithm
+        lg a        - Base 2 logarithm
+        sqrt a      - Square root
+        cbrt a      - Cube root
+      Commands:
+        exit | ex   - Exit the program
+        help | h    - Show this help message
+        ver  | v    - Show program version
+        solve       - Solve a math equation
 
-  fr: |
-    Opérations:
-      a + b       - Addition
-      a - b       - Soustraction
-      a * b       - Multiplication
-      a / b       - Division
-      a % b       - Modulo
-      a ^ b       - Puissance
-      a log b     - Logarithme
-      ln a        - Logarithme naturel
-    Commandes:
-      exit        - Quitter le programme
-      help        - Afficher cette aide
-      version     - Afficher la version de ce programme
-      solve       - Résoudre une équation mathématique
-      
+    fr: |
+      Opérateurs:
+        a + b       - Addition
+        a - b       - Soustraction
+        a * b       - Multiplication
+        a / b       - Division
+        a % b       - Modulo
+        a ^ b       - Puissance
+        a log b     - Logarithme
+        ln a        - Logarithme naturel
+        lg a        - Logarithme base 2
+        sqrt a      - Radical
+        cbrt a      - Radical cube
+      Commandes:
+        exit | ex   - Quitter le programme
+        help | h    - Afficher cette aide
+        ver  | v    - Afficher la version du programme
+        solve       - Résoudre une équation

@@ -1,58 +1,73 @@
-use std::io;
+use std::io::stdin;
 use std::str::SplitWhitespace;
 
-use crate::output::{command_prompt, output_error};
+use crate::output::{
+    command_prompt, 
+    output_error
+};
 
-fn _operate(coe: &mut Vec<f64>, input: &mut SplitWhitespace, op_type: String) {
-    let mut item: String = input.next().unwrap().to_string();
-    let i: char = item.pop().unwrap();
+struct Expression {
+    coe: Vec<f64>,
+}
+
+impl Expression {
+    fn new() -> Expression {
+        Expression { 
+            coe: vec![0.0, 0.0],
+        }
+    }
+
+    fn solve(&mut self) {
+        println!("{}", self.coe[0] / self.coe[1]);
+        self.coe = vec![0.0, 0.0];
+    }
+}
+
+fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
+    let nxt = input.next();
+    if nxt.is_none() {
+        output_error("Error.Need_More_Arguments");
+        return;
+    }
+    let mut nxt = nxt.unwrap().to_string();
+    let i: char = nxt.pop().unwrap();
     let coes: usize;
     let mut num: f64;
     if i == 'x' {
-        num = 1.0;
-        if !item.is_empty() {
-            num = item.parse().unwrap();
-        }
+        num = nxt.parse().unwrap_or(1.0);
         coes = 1;
     } else {
-        item.push(i);
-        num = item.parse().unwrap();
+        nxt.push(i);
+        num = nxt.parse().unwrap();
         coes = 0;
     }
     if (coes == 0) ^ (op_type == "r") {
         num = -num;
     }
-    coe[coes] += num;
+    expr.coe[coes] += num;
 }
 
 pub fn solve_function_one_one() {
     // 1. 输入系数
-    let mut coe: Vec<f64> = vec![0.0, 0.0];  
-    // 2. 输入操作符
-    let mut _input = String::new();
+    let mut expr: Expression = Expression::new();
     loop {
-        command_prompt("mathcmd->solve".to_string());
-        io::stdin()
-            .read_line(&mut _input)
-            .unwrap();
+        command_prompt("mathcmd->solve");
+        let mut _input = String::new();
+        stdin().read_line(&mut _input).unwrap();
         let mut input: SplitWhitespace = _input.split_whitespace();
         let __command = input.next();
-        if __command.is_none() {
-            continue;
-        }
-        let command: &str = __command.unwrap();
+        let command: &str = __command.unwrap_or("");
         match command {
-            "left" | "le" | "l" | "right" | "ri" | "r" => {
-                _operate(&mut coe, &mut input, command[0..1].to_string());
-            }
-            "end" | "ed" => {
-                println!("{}", coe[0] / coe[1]);
-                coe[0] = 0.0;
-                coe[1] = 0.0;
-            }
-            "exit" | "ex" => return,
-            _default => output_error("Error.Unknown_command"),
+            "left" | "le" | "l" | "right" | "ri" | "r" => 
+                _operate(&mut expr, &mut input, &command[0..1]),
+            "end" | "ed" => 
+                expr.solve(),
+            "exit" | "ex" => 
+                break,
+            "" => 
+                continue,
+            _ => 
+                output_error("Error.Unknown_Command"),
         }
-        _input = String::new();
     }
 }

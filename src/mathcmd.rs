@@ -1,74 +1,89 @@
-
 use crate::{
     calc::calculator,
-    output::*,
+    data::operators,
+    functions::*,
+    memory_calc::Memory,
+    output::{command_prompt, output_cache, output_error, output_help, output_ver},
     solve::solve_function_one_one,
 };
-use std::io;
-use rust_i18n::*;
+use std::{f64::consts::PI, io::stdin};
 pub fn mathcmd_main() {
-    let mut _input = String::new();
-    let lg: fn(f64) -> f64 = f64::log2;
-    let ln: fn(f64) -> f64 = f64::ln;
-    let mut _version: String = String::from("0.2.1");
-    let mut _cache: Result<f64, &str> = Ok(0.0);
+    let mut _cache: Result<f64, &str> = Err("Error.The_Cache_Is_Empty");
     let mut _digit: f64 = 0.0;
-    let mut _mem: f64 = 0.0;
+    let mut command: &str;
+    let mut _mem: Memory = Memory::new();
     loop {
-        command_prompt("mathcmd".to_string());
-        let mut _input = String::new();
-        io::stdin().read_line(&mut _input).unwrap();
+        command_prompt("mathcmd");
+        let mut _input: String = String::new();
+        stdin().read_line(&mut _input).unwrap();
         let mut input = _input.split_whitespace();
-        let mut command = input.next().unwrap_or("");
+        command = input.next().unwrap_or("");
         if command.parse::<f64>().is_ok() {
             _digit = command.parse().unwrap();
             command = "digit";
         }
+        let mut _operator: Option<&str> = None;
+        let operators = operators();
+        for operator in operators {
+            if command == operator {
+                _operator = Some(command);
+                command = "operator";
+            }
+        }
         match command {
             "digit" => {
-                let a: f64 = _digit;
-                let sym: &str = input.next().unwrap();
-                let b: f64 = input.next().unwrap().parse().unwrap();
-                _cache = calculator(a, b, sym);
+                _operator = input.next();
+                let nxt: Option<&str> = input.next();
+                _cache = calculator(_digit, nxt, _operator);
                 output_cache(_cache, &mut _digit);
             }
-            "+" | "-" | "*" | "/" | "//" | "^" | "%" | "log" => {
-                let b: f64 = input.next().unwrap().parse().unwrap();
-                _cache = calculator(_digit, b, command);
+            "operator" => {
+                let nxt: Option<&str> = input.next();
+                _cache = calculator(_digit, nxt, _operator);
                 output_cache(_cache, &mut _digit);
             }
             "solve" => solve_function_one_one(),
             "lg" => {
-                let a: f64 = input.next().unwrap().parse().unwrap();
-                _cache = Ok(lg(a));
+                let nxt: Option<&str> = input.next();
+                _cache = lg(nxt);
                 output_cache(_cache, &mut _digit);
             }
             "ln" => {
-                let a: f64 = input.next().unwrap().parse().unwrap();
-                _cache = Ok(ln(a));
+                let nxt: Option<&str> = input.next();
+                _cache = ln(nxt);
                 output_cache(_cache, &mut _digit);
             }
-            "m+" => _mem += _digit,
-            "m-" => _mem -= _digit,
+            "sqrt" => {
+                let nxt: Option<&str> = input.next();
+                _cache = sqrt(nxt);
+                output_cache(_cache, &mut _digit);
+            }
+            "cbrt" => {
+                let nxt: Option<&str> = input.next();
+                _cache = cbrt(nxt);
+                output_cache(_cache, &mut _digit);
+            }
+            "pi" => {
+                _cache = Ok(PI);
+                output_cache(_cache, &mut _digit);
+            }
+            "m+" => _mem.add(_digit),
+            "m-" => _mem.add(-_digit),
             "mr" => {
-                _cache = Ok(_mem);
+                _cache = Ok(_mem.get());
                 output_cache(_cache, &mut _digit);
             }
-            "mc" => _mem = 0.0,
+            "mc" => _mem.reset(),
             "mrc" => {
-                _cache = Ok(_mem);
+                _cache = Ok(_mem.get());
                 output_cache(_cache, &mut _digit);
-                _mem = 0.0;
+                _mem.reset();
             }
             "exit" | "ex" => break,
-            "version" | "ver" | "v" => output_ver(&mut _version),
+            "version" | "ver" | "v" => output_ver(),
             "" => (),
-            "help" | "h" => {
-                println!("{}", t!("Help"));
-            }
-            _ => {
-                output_error("Error.Unknown_command");
-            }
+            "help" | "h" => output_help("main"),
+            _ => output_error("Error.Unknown_Command"),
         }
-    };
+    }
 }

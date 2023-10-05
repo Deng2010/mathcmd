@@ -13,7 +13,7 @@
 
 ### Install from cargo
 
-```bash
+```sh
 git clone https://github.com/Deng2010/mathcmd
 cd mathcmd
 cargo build
