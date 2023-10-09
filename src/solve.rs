@@ -1,10 +1,7 @@
 use std::io::stdin;
 use std::str::SplitWhitespace;
 
-use crate::output::{
-    command_prompt, 
-    output_error
-};
+use crate::output::{command_prompt, output_error, output_help};
 
 struct Expression {
     coe: Vec<f64>,
@@ -12,11 +9,10 @@ struct Expression {
 
 impl Expression {
     fn new() -> Expression {
-        Expression { 
+        Expression {
             coe: vec![0.0, 0.0],
         }
     }
-
     fn solve(&mut self) {
         println!("{}", self.coe[0] / self.coe[1]);
         self.coe = vec![0.0, 0.0];
@@ -30,7 +26,7 @@ fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
         return;
     }
     let mut nxt = nxt.unwrap().to_string();
-    let i: char = nxt.pop().unwrap();
+    let i: char = nxt.pop().unwrap_or('0');
     let coes: usize;
     let mut num: f64;
     if i == 'x' {
@@ -58,16 +54,14 @@ pub fn solve_function_one_one() {
         let __command = input.next();
         let command: &str = __command.unwrap_or("");
         match command {
-            "left" | "le" | "l" | "right" | "ri" | "r" => 
-                _operate(&mut expr, &mut input, &command[0..1]),
-            "end" | "ed" => 
-                expr.solve(),
-            "exit" | "ex" => 
-                break,
-            "" => 
-                continue,
-            _ => 
-                output_error("Error.Unknown_Command"),
+            "left" | "le" | "l" | "right" | "ri" | "r" => {
+                _operate(&mut expr, &mut input, &command[0..1])
+            }
+            "end" | "ed" => expr.solve(),
+            "exit" | "ex" => break,
+            "help" | "h" => output_help("solve"),
+            "" => continue,
+            _ => output_error("Error.Unknown_Command"),
         }
     }
 }

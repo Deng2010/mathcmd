@@ -321,7 +321,7 @@ dependencies = [
 
 [[package]]
 name = "mathcmd"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "colored",
  "current_locale",

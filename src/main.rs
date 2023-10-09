@@ -4,7 +4,9 @@ mod solve;
 mod mathcmd;
 mod functions;
 mod data;
-mod memory_calc;
+mod memory;
+mod cache;
+
 #[macro_use]
 extern crate rust_i18n;
 i18n!("locales", fallback = "en");
