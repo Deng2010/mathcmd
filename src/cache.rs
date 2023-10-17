@@ -12,10 +12,7 @@ impl Cache {
         }
     }
     pub fn get_digit(&self) -> Result<f64, String> {
-        if self.content.is_err() {
-            return Err("Error.The_Cache_Is_Empty".to_string())
-        }
-        return Ok(self.digit)
+        return Ok(self.digit);
     }
     pub fn update(&mut self, new_content: Result<f64, String>) {
         self.content = new_content;
