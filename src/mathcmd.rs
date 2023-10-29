@@ -4,12 +4,12 @@ use crate::{
     data::operators,
     functions::*,
     memory::Memory,
-    output::{command_prompt, output_error, output_help, output_ver},
-    solve::solve_function_one_one,
+    modules::solve::solve_function,
+    output::{command_prompt, output_help, output_message, output_ver},
 };
 use std::{f64::consts::PI, io::stdin};
 pub fn mathcmd_main() {
-    let mut _cache: Cache = Cache::new(Err("Error.The_Cache_Is_Empty".to_string()));
+    let mut _cache: Cache = Cache::new(Err("Warning.The_Cache_Is_Empty".to_string()));
     let mut command: &str;
     let mut _mem: Memory = Memory::new();
     loop {
@@ -24,33 +24,23 @@ pub fn mathcmd_main() {
         }
         let mut _operator: Option<&str> = None;
         let operators = operators();
-        for operator in operators {
-            if command == operator {
-                _operator = Some(command);
-                command = "operator";
-            }
+        if operators.contains(&command) {
+            _operator = Some(command);
+            command = "operator";
         }
         match command {
             "digit" => {
                 _operator = input.next();
                 let nxt: Option<&str> = input.next();
-                _cache.update(calculator(
-                    _cache.get_digit().unwrap_or(0.0),
-                    nxt,
-                    _operator,
-                ));
+                _cache.update(calculator(_cache.get_digit(), nxt, _operator));
                 _cache.output();
             }
             "operator" => {
                 let nxt: Option<&str> = input.next();
-                _cache.update(calculator(
-                    _cache.get_digit().unwrap_or(0.0),
-                    nxt,
-                    _operator,
-                ));
+                _cache.update(calculator(_cache.get_digit(), nxt, _operator));
                 _cache.output();
             }
-            "solve" => solve_function_one_one(),
+            "solve" => solve_function(),
             "lg" => {
                 let nxt: Option<&str> = input.next();
                 _cache.update(lg(nxt));
@@ -75,8 +65,8 @@ pub fn mathcmd_main() {
                 _cache.update(Ok(PI));
                 _cache.output();
             }
-            "m+" => _mem.add(_cache.get_digit().unwrap_or(0.0)),
-            "m-" => _mem.add(-_cache.get_digit().unwrap_or(0.0)),
+            "m+" => _mem.add(_cache.get_digit()),
+            "m-" => _mem.add(-_cache.get_digit()),
             "mr" => {
                 _cache.update(Ok(_mem.get()));
                 _cache.output();
@@ -91,7 +81,7 @@ pub fn mathcmd_main() {
             "version" | "ver" | "v" => output_ver(),
             "" => (),
             "help" | "h" => output_help("main"),
-            _ => output_error("Error.Unknown_Command"),
+            _ => output_message("Error.Unknown_Command"),
         }
     }
 }

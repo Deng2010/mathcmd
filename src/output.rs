@@ -9,13 +9,19 @@ pub fn command_prompt(_current: &str) {
 pub fn output_ver() {
     println!("MATHcmd v{}", version());
 }
-pub fn output_error(_type: &str) {
-    println!("{}", t!(_type).bold().red());
+pub fn output_message(_message: &str) {
+    if _message.starts_with("Error") {
+        println!("{}", t!(_message).bold().red());
+    } else if _message.starts_with("Warning") {
+        println!("{}", t!(_message).bold().yellow());
+    } else {
+        println!("{}", t!(_message).bold().italic().bright_cyan());
+    }
 }
 pub fn output_result(_result: Result<f64, String>) {
     match _result {
         Ok(x) => println!("{}", ("= ".to_string() + &x.to_string()).bold().cyan()),
-        Err(err) => output_error(&err),
+        Err(err) => output_message(&err),
     }
 }
 pub fn output_help(_page: &str) {

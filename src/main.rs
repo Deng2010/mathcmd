@@ -1,21 +1,20 @@
-mod calc;
-mod output;
-mod solve;
-mod mathcmd;
-mod functions;
-mod data;
-mod memory;
 mod cache;
+mod calc;
+mod data;
+mod functions;
+mod mathcmd;
+mod memory;
+mod modules;
+mod output;
 
 #[macro_use]
 extern crate rust_i18n;
 i18n!("locales", fallback = "en");
-use current_locale::current_locale;
+
 use crate::mathcmd::mathcmd_main;
+use current_locale::current_locale;
 
 fn main() {
-    let __locale = current_locale().unwrap_or("en".to_string());
-    rust_i18n::set_locale(&__locale);
+    rust_i18n::set_locale(&current_locale().unwrap_or("en".to_string()));
     mathcmd_main();
 }
-

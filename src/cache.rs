@@ -11,8 +11,18 @@ impl Cache {
             digit: 0.0,
         }
     }
-    pub fn get_digit(&self) -> Result<f64, String> {
-        return Ok(self.digit);
+    pub fn clone(&self) -> Self {
+        Self {
+            content: self.content.clone(),
+            digit: self.digit,
+        }
+    }
+    pub fn get_digit(&self) -> f64 {
+        if self.content.is_err() {
+            self.clone().output();
+            return 0.0;
+        }
+        return self.digit;
     }
     pub fn update(&mut self, new_content: Result<f64, String>) {
         self.content = new_content;
@@ -29,7 +39,7 @@ impl Cache {
             self.update_digit(_digit);
         } else {
             self.update_digit(0.0);
-            self.update(Err("Error.The_Cache_Is_Empty".to_string()));
+            self.update(Err("Warning.The_Cache_Is_Empty".to_string()));
         }
     }
 }

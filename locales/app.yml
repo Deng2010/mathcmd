@@ -20,16 +20,12 @@ Error:
     en: "ERROR: Invalid argument"
     zh-CN: "错误: 无效参数"
     fr: "ERREUR: Argument invalide"
-  The_Cache_Is_Empty:
-    en: "ERROR: The cache is empty"
-    zh-CN: "错误: 缓存为空"
-    fr: "ERREUR: Le cache est vide"
 
 Warning:
-  Unable_to_get_current_locale:
-    en: "WARNING: Unable to get current locale"
-    zh-CN: "警告: 无法获取当前语言"
-    fr: "AVERTISSEMENT: Impossible de récupérer la locale courante"
+  The_Cache_Is_Empty:
+    en: "WARNING: The cache is empty"
+    zh-CN: "错误: 缓存为空"
+    fr: "WARNING: Le cache est vide"
 
 Exit:
   en: Program exited with code %{code}
@@ -55,6 +51,7 @@ Help:
         exit | ex   - 退出程序
         help | h    - 显示帮助信息
         ver  | v    - 显示程序版本
+      模块:
         solve       - 求解数学方程
 
     en: |
@@ -74,6 +71,7 @@ Help:
         exit | ex   - Exit the program
         help | h    - Show this help message
         ver  | v    - Show program version
+      Modules:
         solve       - Solve a math equation
 
     fr: |
@@ -93,6 +91,7 @@ Help:
         exit | ex   - Quitter le programme
         help | h    - Afficher cette aide
         ver  | v    - Afficher la version du programme
+      Modules:
         solve       - Résoudre une équation
   solve:
     en: |

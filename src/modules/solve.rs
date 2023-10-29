@@ -1,7 +1,7 @@
 use std::io::stdin;
 use std::str::SplitWhitespace;
 
-use crate::output::{command_prompt, output_error, output_help};
+use crate::output::{command_prompt, output_help, output_message};
 
 struct Expression {
     coe: Vec<f64>,
@@ -22,7 +22,7 @@ impl Expression {
 fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
     let nxt = input.next();
     if nxt.is_none() {
-        output_error("Error.Need_More_Arguments");
+        output_message("Error.Need_More_Arguments");
         return;
     }
     let mut nxt = nxt.unwrap().to_string();
@@ -43,7 +43,7 @@ fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
     expr.coe[coes] += num;
 }
 
-pub fn solve_function_one_one() {
+pub fn solve_function() {
     // 1. 输入系数
     let mut expr: Expression = Expression::new();
     loop {
@@ -61,7 +61,7 @@ pub fn solve_function_one_one() {
             "exit" | "ex" => break,
             "help" | "h" => output_help("solve"),
             "" => continue,
-            _ => output_error("Error.Unknown_Command"),
+            _ => output_message("Error.Unknown_Command"),
         }
     }
 }

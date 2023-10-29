@@ -2,7 +2,7 @@ pub fn calculator<'a>(a: f64, b: Option<&'a str>, sym: Option<&'a str>) -> Resul
     if sym.is_none() {
         return Ok(a);
     }
-    if b.is_none(){
+    if b.is_none() {
         return Err("Error.Need_More_Arguments".to_string());
     }
     let _first = a;
@@ -21,6 +21,6 @@ pub fn calculator<'a>(a: f64, b: Option<&'a str>, sym: Option<&'a str>) -> Resul
         "%" => Ok(_first % _second),
         "^" | "**" => Ok(f64::powf(_first, _second)),
         "log" => Ok(f64::log(_first, _second)),
-        _default => Err("Error.Unsupported_Operator".to_string())
+        _ => Err("Error.Unsupported_Operator".to_string()),
     }
 }
