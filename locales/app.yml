@@ -31,6 +31,12 @@ Warning:
     zh-CN: "警告：方程无法求解"
     fr: "ATTENTION : Le équation n'est pas résoluble"
 
+Info:
+  Result_Is_Not_A_Number:
+    en: "INFO: Result is not a number"
+    zh-CN: "信息: 结果不是数字"
+    fr: "Info: Le résultat n'est pas un nombre" 
+
 Exit:
   en: Program exited with code %{code}
   zh-CN: 程序已退出，代码为 %{code}
@@ -100,22 +106,22 @@ Help:
   solve:
     en: |
       Solve:
-        left a    - Left operand
-        right a   - Right operand
-        end       - End of input
-        exit | ex - Exit the program
-        help | h  - Show this help message
+        left a(x)(b)    - Left operand
+        right a(x)(b)   - Right operand
+        end             - End of input
+        exit | ex       - Exit the program
+        help | h        - Show this help message
     zh-CN: |
       解方程:
-        left a    - 左操作数
-        right a   - 右操作数
-        end       - 结束输入
-        exit | ex - 退出程序
-        help | h  - 显示帮助
+        left a(x)(b)    - 左操作数
+        right a(x)(b)   - 右操作数
+        end             - 结束输入
+        exit | ex       - 退出程序
+        help | h        - 显示帮助
     fr: |
       Résoudre:
-        left a    - Opérande gauche
-        right a   - Opérande droit
-        end       - Fin de l'entrée
-        exit | ex - Quitter le programme
-        help | h  - Afficher cette aide
+        left a(x)(b)    - Opérande gauche
+        right a(x)(b)   - Opérande droit
+        end             - Fin de l'entrée
+        exit | ex       - Quitter le programme
+        help | h        - Afficher cette aide

@@ -9,7 +9,7 @@ use crate::{
 };
 use std::{f64::consts::PI, io::stdin};
 pub fn mathcmd_main() {
-    let mut _cache: Cache = Cache::new(Err("Warning.The_Cache_Is_Empty".to_string()));
+    let mut _cache: Cache = Cache::new(Ok(0.0));
     let mut command: &str;
     let mut _mem: Memory = Memory::new();
     loop {

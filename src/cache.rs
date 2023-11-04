@@ -39,7 +39,7 @@ impl Cache {
             self.update_digit(_digit);
         } else {
             self.update_digit(0.0);
-            self.update(Err("Warning.The_Cache_Is_Empty".to_string()));
+            self.update(Ok(0.0));
         }
     }
 }

@@ -1,4 +1,4 @@
-use crate::data::version;
+use crate::{data::version, modules::solve::FunctionResult};
 use colored::*;
 use std::io::{self, Write};
 pub fn command_prompt(_current: &str) {
@@ -23,6 +23,14 @@ pub fn output_result(_result: Result<f64, String>) {
         Ok(x) => println!("{}", ("= ".to_string() + &x.to_string()).bold().cyan()),
         Err(err) => output_message(&err),
     }
+}
+pub fn output_function_result(_result: FunctionResult) {
+    println!(
+        "{}",
+        (_result.get_name() + " = " + &_result.get_result().to_string())
+            .bold()
+            .cyan()
+    );
 }
 pub fn output_help(_page: &str) {
     let help_page = "Help.".to_string() + _page;

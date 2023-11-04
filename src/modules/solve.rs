@@ -1,8 +1,24 @@
 use std::io::stdin;
 use std::str::SplitWhitespace;
 
-use crate::output::{command_prompt, output_help, output_message};
+use crate::output::{command_prompt, output_function_result, output_help, output_message};
 
+pub struct FunctionResult {
+    name: String,
+    result: f64,
+}
+
+impl FunctionResult {
+    fn new(name: String, result: f64) -> FunctionResult {
+        FunctionResult { name, result }
+    }
+    pub fn get_name(&self) -> String {
+        self.name.clone()
+    }
+    pub fn get_result(&self) -> f64 {
+        self.result.clone()
+    }
+}
 struct Expression {
     coe: Vec<f64>,
     top: usize,
@@ -22,12 +38,31 @@ impl Expression {
     fn solve(&mut self) {
         match self.top {
             1 => self.solve1(),
+            2 => self.solve2(),
             _ => output_message("Warning.Equation_Is_Not_Solvable"),
         }
         self.reset();
     }
     fn solve1(&mut self) {
-        println!("{}", self.coe[0] / self.coe[1]);
+        let x: FunctionResult = FunctionResult::new("x".to_owned(), -self.coe[0] / self.coe[1]);
+        output_function_result(x);
+    }
+    fn solve2(&mut self) {
+        let a: f64 = self.coe[2];
+        let b: f64 = self.coe[1];
+        let c: f64 = self.coe[0];
+        let delta: f64 = b * b - 4.0 * a * c;
+        if delta < 0.0 {
+            output_message("Info.Result_Is_Not_A_Number");
+            return;
+        }
+        let x1: FunctionResult =
+            FunctionResult::new("x1".to_owned(), (-b + f64::sqrt(delta)) / 2.0 / a);
+        let x2: FunctionResult = FunctionResult::new("x2".to_owned(), (-b / a) - x1.get_result());
+        output_function_result(x1);
+        if -b / a != 2.0 * x2.get_result() {
+            output_function_result(x2)
+        };
     }
     fn modify(&mut self, coes: usize, num: f64) {
         self.top = if self.top < coes { coes } else { self.top };
@@ -41,19 +76,26 @@ fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
         output_message("Error.Need_More_Arguments");
         return;
     }
-    let mut nxt = nxt.unwrap().to_string();
-    let i: char = nxt.pop().unwrap_or('0');
+    let nxt = nxt.unwrap();
+    let mut arg = nxt.to_string();
+    let mut _pos: isize = -1;
     let coes: usize;
     let mut num: f64;
-    if i == 'x' {
-        num = nxt.parse().unwrap_or(1.0);
-        coes = 1;
-    } else {
-        nxt.push(i);
-        num = nxt.parse().unwrap();
+    if arg.parse::<f64>().is_ok() {
+        num = arg.parse().unwrap();
         coes = 0;
+    } else {
+        let i: char = arg.pop().unwrap_or('0');
+        if i == 'x' {
+            num = arg.parse().unwrap_or(1.0);
+            coes = 1;
+        } else {
+            arg.pop();
+            num = arg.parse().unwrap_or(1.0);
+            coes = i.to_string().parse().unwrap();
+        }
     }
-    if (coes == 0) ^ (op_type == "r") {
+    if op_type == "r" {
         num = -num;
     }
     expr.modify(coes, num);
