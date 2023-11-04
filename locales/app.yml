@@ -24,8 +24,12 @@ Error:
 Warning:
   The_Cache_Is_Empty:
     en: "WARNING: The cache is empty"
-    zh-CN: "错误: 缓存为空"
-    fr: "WARNING: Le cache est vide"
+    zh-CN: "警告: 缓存为空"
+    fr: "ATTENTION: Le cache est vide"
+  Equation_Is_Not_Solvable:
+    en: "WARNING: Equation is not solvable"
+    zh-CN: "警告：方程无法求解"
+    fr: "ATTENTION : Le équation n'est pas résoluble"
 
 Exit:
   en: Program exited with code %{code}

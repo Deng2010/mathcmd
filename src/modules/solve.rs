@@ -5,17 +5,33 @@ use crate::output::{command_prompt, output_help, output_message};
 
 struct Expression {
     coe: Vec<f64>,
+    top: usize,
 }
 
 impl Expression {
     fn new() -> Expression {
         Expression {
-            coe: vec![0.0, 0.0],
+            coe: vec![0.0; 10],
+            top: 0,
         }
     }
+    fn reset(&mut self) {
+        self.top = 0;
+        self.coe.fill(0.0);
+    }
     fn solve(&mut self) {
+        match self.top {
+            1 => self.solve1(),
+            _ => output_message("Warning.Equation_Is_Not_Solvable"),
+        }
+        self.reset();
+    }
+    fn solve1(&mut self) {
         println!("{}", self.coe[0] / self.coe[1]);
-        self.coe = vec![0.0, 0.0];
+    }
+    fn modify(&mut self, coes: usize, num: f64) {
+        self.top = if self.top < coes { coes } else { self.top };
+        self.coe[coes] += num;
     }
 }
 
@@ -40,7 +56,7 @@ fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
     if (coes == 0) ^ (op_type == "r") {
         num = -num;
     }
-    expr.coe[coes] += num;
+    expr.modify(coes, num);
 }
 
 pub fn solve_function() {
