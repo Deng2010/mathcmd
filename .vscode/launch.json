@@ -7,26 +7,14 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Cargo test",
+            "name": "Cargo launch",
             "cargo": {
                 "args": [
-                    "test",
-                    "--no-run",
+                    "build",
                     "--lib"
                 ]
             },
             "args": []
-        },
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Cargo launch",
-            "cargo": {
-                "args": [
-                    "build"
-                ]
-            },
-            "args": []
-        },
+        }
     ]
 }

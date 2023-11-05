@@ -1,7 +1,6 @@
+use crate::output::{command_prompt, output_function_result, output_help, output_message};
 use std::io::stdin;
 use std::str::SplitWhitespace;
-
-use crate::output::{command_prompt, output_function_result, output_help, output_message};
 
 pub struct FunctionResult {
     name: String,

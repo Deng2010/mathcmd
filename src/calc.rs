@@ -1,26 +1,32 @@
-pub fn calculator<'a>(a: f64, b: Option<&'a str>, sym: Option<&'a str>) -> Result<f64, String> {
+use crate::{comp, complex::Complex};
+
+pub fn calculator<'a>(
+    a: Complex,
+    b: Option<&'a str>,
+    sym: Option<&'a str>,
+) -> Result<Complex, String> {
     if sym.is_none() {
         return Ok(a);
     }
     if b.is_none() {
         return Err("Error.Need_More_Arguments".to_string());
     }
-    let _first = a;
-    let b = b.unwrap().parse::<f64>();
+    let mut _first = a;
+    let b = b.unwrap().to_owned().parse();
     if b.is_err() {
         return Err("Error.Invalid_Argument".to_string());
     }
-    let _second = b.unwrap();
+    let mut _second: f64 = b.unwrap();
     let sym = sym.unwrap();
     match sym {
         "+" => Ok(_first + _second),
         "-" => Ok(_first - _second),
         "*" => Ok(_first * _second),
         "/" => Ok(_first / _second),
-        "//" => Ok((_first as i64 / _second as i64) as f64),
-        "%" => Ok(_first % _second),
-        "^" | "**" => Ok(f64::powf(_first, _second)),
-        "log" => Ok(f64::log(_first, _second)),
+        "//" => Ok(comp!((_first.to_num() as i64 / _second as i64) as f64, 0.0)),
+        "%" => Ok(comp!(_first.to_num() % _second, 0.0)),
+        "^" | "**" => Ok(comp!(f64::powf(_first.to_num(), _second), 0.0)),
+        "log" => Ok(comp!(f64::log(_first.to_num(), _second), 0.0)),
         _ => Err("Error.Unsupported_Operator".to_string()),
     }
 }

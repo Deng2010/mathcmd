@@ -1,14 +1,14 @@
-use crate::output::output_result;
+use crate::{comp, complex::Complex, output::output_result};
 
 pub struct Cache {
-    content: Result<f64, String>,
-    digit: f64,
+    pub content: Result<Complex, String>,
+    pub digit: Complex,
 }
 impl Cache {
-    pub fn new(content: Result<f64, String>) -> Self {
+    pub fn new(content: Result<Complex, String>) -> Self {
         Self {
             content,
-            digit: 0.0,
+            digit: comp!(0.0, 0.0),
         }
     }
     pub fn clone(&self) -> Self {
@@ -17,29 +17,26 @@ impl Cache {
             digit: self.digit,
         }
     }
-    pub fn get_digit(&self) -> f64 {
+    pub fn get_digit(&self) -> Complex {
         if self.content.is_err() {
             self.clone().output();
-            return 0.0;
+            return comp!(0.0, 0.0);
         }
         return self.digit;
     }
-    pub fn update(&mut self, new_content: Result<f64, String>) {
+    pub fn update(&mut self, new_content: Result<Complex, String>) {
         self.content = new_content;
     }
-    pub fn update_digit(&mut self, new_digit: f64) {
+    pub fn update_digit(&mut self, new_digit: Complex) {
         self.digit = new_digit;
     }
     pub fn output(&mut self) {
-        let _content = self.content.clone();
-        output_result(_content);
+        output_result(self.content.clone());
         if self.content.is_ok() {
-            let _content = self.content.clone();
-            let _digit = _content.unwrap();
-            self.update_digit(_digit);
+            self.update_digit(self.content.clone().unwrap());
         } else {
-            self.update_digit(0.0);
-            self.update(Ok(0.0));
+            self.update_digit(comp!(0.0, 0.0));
+            self.update(Ok(comp!(0.0, 0.0)));
         }
     }
 }

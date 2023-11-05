@@ -1,6 +1,8 @@
 use crate::{
     cache::Cache,
     calc::calculator,
+    comp,
+    complex::Complex,
     data::operators,
     functions::*,
     memory::Memory,
@@ -9,7 +11,7 @@ use crate::{
 };
 use std::{f64::consts::PI, io::stdin};
 pub fn mathcmd_main() {
-    let mut _cache: Cache = Cache::new(Ok(0.0));
+    let mut _cache: Cache = Cache::new(Ok(comp!(0.0, 0.0)));
     let mut command: &str;
     let mut _mem: Memory = Memory::new();
     loop {
@@ -19,7 +21,7 @@ pub fn mathcmd_main() {
         let mut input = _input.split_whitespace();
         command = input.next().unwrap_or("");
         if command.parse::<f64>().is_ok() {
-            _cache.update_digit(command.parse().unwrap());
+            _cache.update_digit(Complex::new(command.parse().unwrap(), 0.0));
             command = "digit";
         }
         let mut _operator: Option<&str> = None;
@@ -62,7 +64,7 @@ pub fn mathcmd_main() {
                 _cache.output();
             }
             "pi" => {
-                _cache.update(Ok(PI));
+                _cache.update(Ok(comp!(PI, 0.0)));
                 _cache.output();
             }
             "m+" => _mem.add(_cache.get_digit()),
