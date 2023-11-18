@@ -1,12 +1,11 @@
 use crate::{
     cache::Cache,
-    calc::calculator,
     comp,
     complex::Complex,
-    data::operators,
     functions::*,
     memory::Memory,
-    modules::solve::solve_function,
+    modules::{calc::calculator, solve::solve_function},
+    operators,
     output::{command_prompt, output_help, output_message, output_ver},
 };
 use std::{f64::consts::PI, io::stdin};
@@ -20,12 +19,12 @@ pub fn mathcmd_main() {
         stdin().read_line(&mut _input).unwrap();
         let mut input = _input.split_whitespace();
         command = input.next().unwrap_or("");
-        if command.parse::<f64>().is_ok() {
-            _cache.update_digit(Complex::new(command.parse().unwrap(), 0.0));
+        if command.parse::<Complex>().is_ok() {
+            _cache.update_digit(command.parse().unwrap());
             command = "digit";
         }
         let mut _operator: Option<&str> = None;
-        let operators = operators();
+        let operators = operators!();
         if operators.contains(&command) {
             _operator = Some(command);
             command = "operator";

@@ -1,6 +1,12 @@
-pub fn version() -> String {
-    return "0.3.0".to_string();
+#[macro_export]
+macro_rules! version {
+    () => {
+        "0.3.1"
+    };
 }
-pub fn operators() -> Vec<&'static str> {
-    return vec!["+", "-", "*", "**", "/", "//", "^", "%", "log"];
+#[macro_export]
+macro_rules! operators {
+    () => {
+        vec!["+", "-", "*", "**", "/", "//", "^", "%", "log"]
+    };
 }

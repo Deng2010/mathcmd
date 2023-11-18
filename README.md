@@ -14,8 +14,5 @@
 ### Install from cargo
 
 ```sh
-git clone https://github.com/Deng2010/mathcmd
-cd mathcmd
-cargo build
-cargo install --path .
+cargo install --git https://githubfast.com/Deng2010/mathcmd
 ```

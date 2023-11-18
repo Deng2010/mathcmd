@@ -1,5 +1,4 @@
 mod cache;
-mod calc;
 mod complex;
 mod data;
 mod functions;

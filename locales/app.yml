@@ -31,12 +31,6 @@ Warning:
     zh-CN: "警告：方程无法求解"
     fr: "ATTENTION : Le équation n'est pas résoluble"
 
-Info:
-  Result_Is_Not_A_Number:
-    en: "INFO: Result is not a number"
-    zh-CN: "信息: 结果不是数字"
-    fr: "Info: Le résultat n'est pas un nombre" 
-
 Exit:
   en: Program exited with code %{code}
   zh-CN: 程序已退出，代码为 %{code}

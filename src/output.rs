@@ -1,4 +1,4 @@
-use crate::{complex::Complex, data::version, modules::solve::FunctionResult};
+use crate::{complex::Complex, modules::solve::FunctionResult, version};
 use colored::*;
 use std::io::{self, Write};
 pub fn command_prompt(_current: &str) {
@@ -7,7 +7,7 @@ pub fn command_prompt(_current: &str) {
     io::stdout().flush().unwrap();
 }
 pub fn output_ver() {
-    println!("MATHcmd v{}", version().clone());
+    println!("MATHcmd v{}", version!());
 }
 pub fn output_message(_message: &str) {
     if _message.starts_with("Error") {

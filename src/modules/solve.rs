@@ -1,38 +1,40 @@
+use crate::comp;
+use crate::complex::Complex;
 use crate::output::{command_prompt, output_function_result, output_help, output_message};
 use std::io::stdin;
 use std::str::SplitWhitespace;
 
 pub struct FunctionResult {
     name: String,
-    result: f64,
+    result: Complex,
 }
 
 impl FunctionResult {
-    fn new(name: String, result: f64) -> FunctionResult {
+    fn new(name: String, result: Complex) -> FunctionResult {
         FunctionResult { name, result }
     }
     pub fn get_name(&self) -> String {
         self.name.clone()
     }
-    pub fn get_result(&self) -> f64 {
+    pub fn get_result(&self) -> Complex {
         self.result.clone()
     }
 }
 struct Expression {
-    coe: Vec<f64>,
+    coe: Vec<Complex>,
     top: usize,
 }
 
 impl Expression {
     fn new() -> Expression {
         Expression {
-            coe: vec![0.0; 10],
+            coe: vec![comp!(); 10],
             top: 0,
         }
     }
     fn reset(&mut self) {
         self.top = 0;
-        self.coe.fill(0.0);
+        self.coe.fill(comp!());
     }
     fn solve(&mut self) {
         match self.top {
@@ -47,19 +49,13 @@ impl Expression {
         output_function_result(x);
     }
     fn solve2(&mut self) {
-        let a: f64 = self.coe[2];
-        let b: f64 = self.coe[1];
-        let c: f64 = self.coe[0];
-        let delta: f64 = b * b - 4.0 * a * c;
-        if delta < 0.0 {
-            output_message("Info.Result_Is_Not_A_Number");
-            return;
-        }
-        let x1: FunctionResult =
-            FunctionResult::new("x1".to_owned(), (-b + f64::sqrt(delta)) / 2.0 / a);
-        let x2: FunctionResult = FunctionResult::new("x2".to_owned(), (-b / a) - x1.get_result());
+        let s: Complex = -self.coe[1] / (self.coe[2] * 2.0);
+        let l: Complex = self.coe[0] / self.coe[2];
+        let x1: FunctionResult = FunctionResult::new("x1".to_owned(), s + Complex::sqrt(s * s - l));
         output_function_result(x1);
-        if -b / a != 2.0 * x2.get_result() {
+        if s * s != l {
+            let x2: FunctionResult =
+                FunctionResult::new("x2".to_owned(), s - Complex::sqrt(s * s - l));
             output_function_result(x2)
         };
     }
