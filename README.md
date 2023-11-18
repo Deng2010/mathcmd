@@ -14,5 +14,5 @@
 ### Install from cargo
 
 ```sh
-cargo install --git https://githubfast.com/Deng2010/mathcmd
+cargo install --git https://github.com/Deng2010/mathcmd
 ```
