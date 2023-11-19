@@ -22,7 +22,7 @@ impl Cache {
             self.clone().output();
             return comp!(0.0, 0.0);
         }
-        return self.digit;
+        self.digit
     }
     pub fn update(&mut self, new_content: Result<Complex, String>) {
         self.content = new_content;

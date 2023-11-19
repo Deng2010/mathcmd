@@ -39,25 +39,57 @@ Exit:
 Help:
   main:
     zh-CN: |
-      运算:
-        a + b       - 加法
-        a - b       - 减法
-        a * b       - 乘法
-        a / b       - 除法
-        a % b       - 取模
-        a ^ b       - 幂
-        a log b     - 对数
-        ln a        - 自然对数
-        lg a        - 底为2的对数
-        sqrt a      - 平方根
-        cbrt a      - 立方根
       命令:
         exit | ex   - 退出程序
         help | h    - 显示帮助信息
         ver  | v    - 显示程序版本
       模块:
+        calc        - 基本计算
         solve       - 求解数学方程
 
+    en: |
+      Commands:
+        exit | ex   - Exit the program
+        help | h    - Show this help message
+        ver  | v    - Show program version
+      Modules:
+        calc        - basic calculations
+        solve       - Solve a math equation
+
+    fr: |
+      Commandes:
+        exit | ex   - Quitter le programme
+        help | h    - Afficher cette aide
+        ver  | v    - Afficher la version du programme
+      Modules:
+        calc        - calculs de base
+        solve       - Résoudre une équation
+  solve:
+    en: |
+      Solve:
+        left a(x)(b)    - Left operand
+        right a(x)(b)   - Right operand
+        end             - End of input
+        reset           - reset
+        exit | ex       - Exit the program
+        help | h        - Show this help message
+    zh-CN: |
+      解方程:
+        left a(x)(b)    - 左操作数
+        right a(x)(b)   - 右操作数
+        end             - 结束输入
+        reset           - 重置
+        exit | ex       - 退出程序
+        help | h        - 显示帮助
+    fr: |
+      Résoudre:
+        left a(x)(b)    - Opérande gauche
+        right a(x)(b)   - Opérande droit
+        end             - Fin de l'entrée
+        reset           - Réinitialisation
+        exit | ex       - Quitter le programme
+        help | h        - Afficher cette aide
+  calc:
     en: |
       Operators:
         a + b       - Addition
@@ -71,13 +103,19 @@ Help:
         lg a        - Base 2 logarithm
         sqrt a      - Square root
         cbrt a      - Cube root
-      Commands:
-        exit | ex   - Exit the program
-        help | h    - Show this help message
-        ver  | v    - Show program version
-      Modules:
-        solve       - Solve a math equation
-
+    zh-CN: |
+      运算:
+        a + b       - 加法
+        a - b       - 减法
+        a * b       - 乘法
+        a / b       - 除法
+        a % b       - 取模
+        a ^ b       - 幂
+        a log b     - 对数
+        ln a        - 自然对数
+        lg a        - 底为2的对数
+        sqrt a      - 平方根
+        cbrt a      - 立方根
     fr: |
       Opérateurs:
         a + b       - Addition
@@ -91,31 +129,3 @@ Help:
         lg a        - Logarithme base 2
         sqrt a      - Radical
         cbrt a      - Radical cube
-      Commandes:
-        exit | ex   - Quitter le programme
-        help | h    - Afficher cette aide
-        ver  | v    - Afficher la version du programme
-      Modules:
-        solve       - Résoudre une équation
-  solve:
-    en: |
-      Solve:
-        left a(x)(b)    - Left operand
-        right a(x)(b)   - Right operand
-        end             - End of input
-        exit | ex       - Exit the program
-        help | h        - Show this help message
-    zh-CN: |
-      解方程:
-        left a(x)(b)    - 左操作数
-        right a(x)(b)   - 右操作数
-        end             - 结束输入
-        exit | ex       - 退出程序
-        help | h        - 显示帮助
-    fr: |
-      Résoudre:
-        left a(x)(b)    - Opérande gauche
-        right a(x)(b)   - Opérande droit
-        end             - Fin de l'entrée
-        exit | ex       - Quitter le programme
-        help | h        - Afficher cette aide

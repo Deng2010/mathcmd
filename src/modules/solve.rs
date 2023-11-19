@@ -1,5 +1,8 @@
+//Current page: solve
+
 use crate::comp;
 use crate::complex::Complex;
+
 use crate::output::{command_prompt, output_function_result, output_help, output_message};
 use std::io::stdin;
 use std::str::SplitWhitespace;
@@ -17,7 +20,7 @@ impl FunctionResult {
         self.name.clone()
     }
     pub fn get_result(&self) -> Complex {
-        self.result.clone()
+        self.result
     }
 }
 struct Expression {
@@ -37,6 +40,11 @@ impl Expression {
         self.coe.fill(comp!());
     }
     fn solve(&mut self) {
+        for i in 1..5 {
+            if self.coe[i] != comp!() {
+                self.top = i;
+            }
+        }
         match self.top {
             1 => self.solve1(),
             2 => self.solve2(),
@@ -59,45 +67,44 @@ impl Expression {
             output_function_result(x2)
         };
     }
-    fn modify(&mut self, coes: usize, num: f64) {
-        self.top = if self.top < coes { coes } else { self.top };
+    fn operate(&mut self, input: &mut SplitWhitespace, op_type: char) {
+        let nxt = input.next();
+        if nxt.is_none() {
+            output_message("Error.Need_More_Arguments");
+            return;
+        }
+        let nxt = nxt.unwrap();
+        let mut arg = nxt.to_string();
+        let mut _pos: isize = -1;
+        let coes: usize;
+        let mut num: Complex;
+        if arg.parse::<Complex>().is_ok() {
+            num = arg.parse().unwrap();
+            coes = 0;
+        } else {
+            let i: char = arg.pop().unwrap_or('0');
+            if i.is_alphabetic() {
+                num = arg
+                    .parse()
+                    .unwrap_or(if arg == "-" { comp!(-1.0) } else { comp!(1.0) });
+                coes = 1;
+            } else {
+                arg.pop();
+                num = arg
+                    .parse()
+                    .unwrap_or(if arg == "-" { comp!(-1.0) } else { comp!(1.0) });
+                coes = i.to_string().parse().unwrap();
+            }
+        }
+        if op_type == 'r' {
+            num = -num;
+        }
         self.coe[coes] += num;
     }
 }
 
-fn _operate(expr: &mut Expression, input: &mut SplitWhitespace, op_type: &str) {
-    let nxt = input.next();
-    if nxt.is_none() {
-        output_message("Error.Need_More_Arguments");
-        return;
-    }
-    let nxt = nxt.unwrap();
-    let mut arg = nxt.to_string();
-    let mut _pos: isize = -1;
-    let coes: usize;
-    let mut num: f64;
-    if arg.parse::<f64>().is_ok() {
-        num = arg.parse().unwrap();
-        coes = 0;
-    } else {
-        let i: char = arg.pop().unwrap_or('0');
-        if i == 'x' {
-            num = arg.parse().unwrap_or(1.0);
-            coes = 1;
-        } else {
-            arg.pop();
-            num = arg.parse().unwrap_or(1.0);
-            coes = i.to_string().parse().unwrap();
-        }
-    }
-    if op_type == "r" {
-        num = -num;
-    }
-    expr.modify(coes, num);
-}
-
 pub fn solve_function() {
-    // 1. 输入系数
+    let page: &str = "solve";
     let mut expr: Expression = Expression::new();
     loop {
         command_prompt("mathcmd->solve");
@@ -107,12 +114,12 @@ pub fn solve_function() {
         let __command = input.next();
         let command: &str = __command.unwrap_or("");
         match command {
-            "left" | "le" | "l" | "right" | "ri" | "r" => {
-                _operate(&mut expr, &mut input, &command[0..1])
-            }
+            "left" | "le" | "l" => expr.operate(&mut input, 'l'),
+            "right" | "ri" | "r" => expr.operate(&mut input, 'r'),
             "end" | "ed" => expr.solve(),
+            "reset" => expr.reset(),
             "exit" | "ex" => break,
-            "help" | "h" => output_help("solve"),
+            "help" | "h" => output_help(page),
             "" => continue,
             _ => output_message("Error.Unknown_Command"),
         }

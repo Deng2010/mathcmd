@@ -9,9 +9,6 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
     "editor.formatOnSave": true,
     "editor.formatOnPaste": true,
-    "[yaml]": {
-        "editor.defaultFormatter": "redhat.vscode-yaml"
-    },
     "[toml]": {
         "editor.defaultFormatter": "tamasfe.even-better-toml"
     },
@@ -19,5 +16,5 @@
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
-    
+    "rust-analyzer.check.command": "clippy"
 }

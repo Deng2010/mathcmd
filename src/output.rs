@@ -20,19 +20,19 @@ pub fn output_message(_message: &str) {
 }
 pub fn output_result(_result: Result<Complex, String>) {
     match _result {
-        Ok(x) => println!("{}", ("= ".to_string() + &x.to_string()).bold().cyan()),
-        Err(err) => output_message(&err),
+        Ok(x) => println!("{}", ("= ".to_string() + &x.to_string().bold().cyan())),
+        Err(err) => output_message(err.as_str()),
     }
 }
 pub fn output_function_result(_result: FunctionResult) {
     println!(
         "{}",
-        (_result.get_name() + " = " + &_result.get_result().to_string())
+        (_result.get_name() + " = " + _result.get_result().to_string().as_str())
             .bold()
             .cyan()
     );
 }
 pub fn output_help(_page: &str) {
     let help_page = "Help.".to_string() + _page;
-    println!("{}", t!(&help_page));
+    println!("{}", t!(help_page.as_str()));
 }

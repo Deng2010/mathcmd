@@ -10,7 +10,7 @@ impl Memory {
         }
     }
     pub fn add(&mut self, val: Complex) {
-        self._mem = self._mem + val;
+        self._mem += val;
     }
     pub fn get(&self) -> Complex {
         self._mem
