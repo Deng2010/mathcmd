@@ -40,7 +40,6 @@ calc = """
   sqrt a      - 平方根
   cbrt a      - 立方根"""
 command = """
-MATHcmd ${ver}
 用法: mathcmd [模块] [选项]
 模块:
   calc        - 基本计算
