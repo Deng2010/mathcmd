@@ -1,0 +1,48 @@
+[Error]
+Unknown_Command = "ERROR: Unknown command"
+Unsupported_Operator = "ERROR: Unsupported operator"
+Need_More_Arguments = "ERROR: Need more arguments"
+Invalid_Argument = "ERROR: Invalid argument"
+
+[Warning]
+Module_Cannot_Be_Find = "WARNING: The module cannot be found"
+The_Cache_Is_Empty = "WARNING: The cache is empty"
+Equation_Is_Not_Solvable = "WARNING: Equation is not solvable"
+
+[Help]
+main = """
+Commands:
+  exit, ex    - Exit the program
+  help, h     - Print help
+  ver , v     - Print version
+Modules:
+  calc        - basic calculations
+  solve       - Solve a math equation"""
+solve = """
+Solve:
+  left a(x)(b)    - Left operand
+  right a(x)(b)   - Right operand
+  end             - End of input
+  reset           - Reset
+  exit, ex        - Exit the program
+  help, h         - Print help"""
+calc = """
+Operators:
+  a + b       - Addition
+  a - b       - Subtraction
+  a * b       - Multiplication
+  a / b       - Division
+  a % b       - Modulus
+  a ^ b       - Exponentiation
+  a log b     - Logarithm
+  ln a        - Natural logarithm
+  lg a        - Base 2 logarithm
+  sqrt a      - Square root
+  cbrt a      - Cube root"""
+command = """
+Usage: mathcmd [module] [options]
+Module:
+  calc - basic calculations
+  solve - Solve mathematical equations:
+Options:
+  --help, -h - show help """

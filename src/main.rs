@@ -16,7 +16,7 @@ use std::process::exit;
 use crate::{
     mathcmd::mathcmd_main as mathcmd,
     modules::{calc::calc_main as calc, solve::solve_function as solve},
-    output::output_help,
+    output::{output_help, output_message},
 };
 use current_locale::current_locale;
 
@@ -25,21 +25,22 @@ fn detector(_page: String) {
     match page {
         "solve" => solve(),
         "calc" => calc(),
-        _ => mathcmd(),
+        "main" | "command" => mathcmd(),
+        _ => output_message("Warning.Module_Cannot_Be_Find"),
     }
 }
 
 fn main() {
-    rust_i18n::set_locale(current_locale().unwrap_or("en".to_string()).as_str());
+    rust_i18n::set_locale(current_locale().unwrap_or("en".to_owned()).as_str());
     let args: Vec<String> = std::env::args().collect();
-    let mut page: &str = "main";
+    let mut page: &str = "command";
     for i in args.iter().skip(1) {
         let arg: &str = i;
-        if arg == "--help" {
+        if arg == "--help" || arg == "-h" {
             output_help(page);
             exit(0);
-        } else if arg.starts_with("--mod=") {
-            page = arg.strip_prefix("--mod=").unwrap();
+        } else {
+            page = arg;
         }
     }
     detector(page.to_owned());

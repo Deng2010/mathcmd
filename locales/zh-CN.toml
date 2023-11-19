@@ -1,0 +1,49 @@
+[Error]
+Unknown_Command = "错误: 未知命令"
+Unsupported_Operator = "错误: 不支持的运算符"
+Need_More_Arguments = "错误: 需要更多参数"
+Invalid_Argument = "错误: 无效参数"
+
+[Warning]
+Module_Cannot_Be_Find = "警告: 无法找到该模组"
+The_Cache_Is_Empty = "警告: 缓存为空"
+Equation_Is_Not_Solvable = "警告：方程无法求解"
+
+[Help]
+main = """
+命令:
+  exit, ex    - 退出程序
+  help, h     - 显示帮助信息
+  ver , v     - 显示程序版本
+模块:
+  calc        - 基本计算
+  solve       - 求解数学方程"""
+solve = """
+解方程:
+  left a(x)(b)    - 左操作数
+  right a(x)(b)   - 右操作数
+  end             - 结束输入
+  reset           - 重置
+  exit, ex        - 退出程序
+  help, h         - 显示帮助"""
+calc = """
+运算:
+  a + b       - 加法
+  a - b       - 减法
+  a * b       - 乘法
+  a / b       - 除法
+  a % b       - 取模
+  a ^ b       - 幂
+  a log b     - 对数
+  ln a        - 自然对数
+  lg a        - 底为2的对数
+  sqrt a      - 平方根
+  cbrt a      - 立方根"""
+command = """
+MATHcmd ${ver}
+用法: mathcmd [模块] [选项]
+模块:
+  calc        - 基本计算
+  solve       - 求解数学方程: 
+选项:
+  --help, -h  - 显示帮助"""
