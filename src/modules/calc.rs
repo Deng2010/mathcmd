@@ -1,6 +1,9 @@
 //Current page: calc
 
-use std::{f64::consts::PI, io::stdin};
+use std::{
+    f64::consts::{PI, TAU},
+    io::stdin,
+};
 
 use crate::{
     cache::Cache,
@@ -8,7 +11,7 @@ use crate::{
     complex::Complex,
     functions::*,
     memory::Memory,
-    modules::solve::solve_function as solve,
+    modules::solve::solve_main as solve,
     operators,
     output::{command_prompt, output_help, output_message, output_ver},
 };
@@ -22,11 +25,11 @@ pub fn calculator<'a>(
         return Ok(lhs);
     }
     if rhs.is_none() {
-        return Err("Error.Need_More_Arguments".to_string());
+        return Err("error.need_more_arguments".to_string());
     }
     let rhs = rhs.unwrap().to_owned().parse();
     if rhs.is_err() {
-        return Err("Error.Invalid_Argument".to_string());
+        return Err("error.invalid_argument".to_string());
     }
     let rhs: Complex = rhs.unwrap();
     let op = op.unwrap();
@@ -42,12 +45,12 @@ pub fn calculator<'a>(
         "%" => Ok(comp!(lhs.to_num() % rhs.to_num(), 0.0)),
         "^" | "**" => Ok(Complex::pow(lhs, rhs.to_num() as u32)),
         "log" => Ok(comp!(f64::log(lhs.to_num(), rhs.to_num()), 0.0)),
-        _ => Err("Error.Unsupported_Operator".to_string()),
+        _ => Err("error.unsupported_operator".to_string()),
     }
 }
 pub fn calc_main() {
     let page: &str = "calc";
-    let mut _cache: Cache = Cache::new(Ok(comp!(0.0, 0.0)));
+    let mut _cache: Cache = Cache::new();
     let mut command: &str;
     let mut _mem: Memory = Memory::new();
     loop {
@@ -101,11 +104,15 @@ pub fn calc_main() {
                 _cache.output();
             }
             "pi" => {
-                _cache.update(Ok(comp!(PI, 0.0)));
+                _cache.update(Ok(comp!(PI)));
                 _cache.output();
             }
-            "m+" => _mem.add(_cache.get_digit()),
-            "m-" => _mem.add(-_cache.get_digit()),
+            "tau" => {
+                _cache.update(Ok(comp!(TAU)));
+                _cache.output();
+            }
+            "m+" => _mem += _cache.get_digit(),
+            "m-" => _mem -= _cache.get_digit(),
             "mr" => {
                 _cache.update(Ok(_mem.get()));
                 _cache.output();
@@ -120,7 +127,7 @@ pub fn calc_main() {
             "version" | "ver" | "v" => output_ver(),
             "" => (),
             "help" | "h" => output_help(page),
-            _ => output_message("Error.Unknown_Command"),
+            _ => output_message("error.unknown_command"),
         }
     }
 }

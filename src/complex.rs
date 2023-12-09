@@ -16,6 +16,21 @@ macro_rules! comp {
         Complex::default()
     };
 }
+
+pub fn to_compstr(s: &str) -> String {
+    let str: String;
+    if s.ends_with("+i") {
+        str = s.replace('i', "1i");
+    } else if s.contains('+') {
+        str = String::from(s);
+    } else if s.ends_with('i') {
+        str = String::from("0+") + if s == "i" { "1i" } else { s };
+    } else {
+        str = String::from(s) + "+0i";
+    }
+    str
+}
+
 #[derive(PartialEq, Copy, Clone, Debug, Default)]
 pub struct Complex {
     pub re: f64,
@@ -27,28 +42,6 @@ impl Complex {
     }
     pub fn to_num(self) -> f64 {
         self.re
-    }
-    pub fn preprocess(s: String) -> String {
-        let mut str: String = String::new();
-        if s.contains('+') {
-            if s.ends_with("+i") {
-                str += s.strip_suffix("+i").unwrap();
-                str += "+1i";
-            } else {
-                str += s.clone().as_str();
-            }
-        } else if s.ends_with('i') {
-            if s.starts_with('i') {
-                str += "0+1i";
-            } else {
-                str += "0+";
-                str += s.clone().as_str();
-            }
-        } else {
-            str += s.clone().as_str();
-            str += "+0i";
-        }
-        str
     }
     pub fn sqrt(a: Complex) -> Complex {
         if a.im == 0.0 {
@@ -88,7 +81,7 @@ impl Display for Complex {
         } else if self.im != 0.0 {
             res = res + self.im.to_string().as_str() + "i";
         } else if self.re == 0.0 {
-            res = "0".to_owned();
+            res = String::from("0");
         }
         write!(f, "{res}")
     }
@@ -103,27 +96,31 @@ impl Add<Complex> for Complex {
         }
     }
 }
-impl AddAssign<Complex> for Complex {
-    fn add_assign(&mut self, rhs: Complex) {
-        self.re += rhs.re;
-        self.im += rhs.im;
-    }
-}
+
 impl Add<f64> for Complex {
     type Output = Complex;
     fn add(self, rhs: f64) -> Complex {
         self + comp!(rhs)
     }
 }
-impl AddAssign<f64> for Complex {
-    fn add_assign(&mut self, rhs: f64) {
-        self.re += rhs;
-    }
-}
+
 impl Add<Complex> for f64 {
     type Output = Complex;
     fn add(self, rhs: Complex) -> Complex {
         comp!(self) + rhs
+    }
+}
+
+impl AddAssign<Complex> for Complex {
+    fn add_assign(&mut self, rhs: Complex) {
+        self.re += rhs.re;
+        self.im += rhs.im;
+    }
+}
+
+impl AddAssign<f64> for Complex {
+    fn add_assign(&mut self, rhs: f64) {
+        self.re += rhs;
     }
 }
 
@@ -144,18 +141,20 @@ impl Sub<Complex> for f64 {
     }
 }
 
-impl SubAssign<Complex> for Complex {
-    fn sub_assign(&mut self, rhs: Complex) {
-        self.re -= rhs.re;
-        self.im -= rhs.im;
-    }
-}
 impl Sub<f64> for Complex {
     type Output = Complex;
     fn sub(self, rhs: f64) -> Complex {
         self - comp!(rhs)
     }
 }
+
+impl SubAssign<Complex> for Complex {
+    fn sub_assign(&mut self, rhs: Complex) {
+        self.re -= rhs.re;
+        self.im -= rhs.im;
+    }
+}
+
 impl SubAssign<f64> for Complex {
     fn sub_assign(&mut self, rhs: f64) {
         self.re -= rhs;
@@ -203,20 +202,25 @@ impl Neg for Complex {
     }
 }
 
+impl PartialEq<f64> for Complex {
+    fn eq(&self, rhs: &f64) -> bool {
+        &self.re == rhs
+    }
+}
 #[derive(Debug)]
 pub struct ParseComplexError;
 
 impl FromStr for Complex {
     type Err = ParseComplexError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let s: String = Complex::preprocess(s.to_owned());
+        let s: String = to_compstr(s);
         let (x, y) = s
             .strip_suffix('i')
             .and_then(|str| str.split_once('+'))
             .ok_or(ParseComplexError)?;
 
-        let x_fromstr = x.parse::<f64>().map_err(|_| ParseComplexError)?;
-        let y_fromstr = y.parse::<f64>().map_err(|_| ParseComplexError)?;
+        let x_fromstr: f64 = x.parse().map_err(|_| ParseComplexError)?;
+        let y_fromstr: f64 = y.parse().map_err(|_| ParseComplexError)?;
 
         Ok(comp!(x_fromstr, y_fromstr))
     }

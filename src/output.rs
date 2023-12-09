@@ -1,4 +1,4 @@
-use crate::{complex::Complex, modules::solve::FunctionResult, version};
+use crate::{complex::Complex, modules::solve::FunctionResult, point::Point, version};
 use colored::*;
 use std::io::{self, Write};
 pub fn command_prompt(_current: &str) {
@@ -10,29 +10,33 @@ pub fn output_ver() {
     println!("MATHcmd v{}", version!());
 }
 pub fn output_message(_message: &str) {
-    if _message.starts_with("Error") {
-        println!("{}", t!(_message).bold().red());
-    } else if _message.starts_with("Warning") {
-        println!("{}", t!(_message).bold().yellow());
+    let _message = _message.to_ascii_lowercase();
+    if _message.starts_with("error") {
+        println!("{}", t!(_message.as_str()).bold().red());
+    } else if _message.starts_with("warning") {
+        println!("{}", t!(_message.as_str()).bold().yellow());
     } else {
-        println!("{}", t!(_message).bold().italic().bright_cyan());
+        println!("{}", t!(_message.as_str()).bold().italic().bright_cyan());
     }
 }
 pub fn output_result(_result: Result<Complex, String>) {
     match _result {
-        Ok(x) => println!("{}", ("= ".to_string() + &x.to_string().bold().cyan())),
+        Ok(x) => println!("{} {}", "=".bold().cyan(), x.to_string().bold().cyan()),
         Err(err) => output_message(err.as_str()),
     }
 }
+pub fn output_point(_point: Point) {
+    println!("{}", _point.to_string().bold().cyan());
+}
 pub fn output_function_result(_result: FunctionResult) {
     println!(
-        "{}",
-        (_result.get_name() + " = " + _result.get_result().to_string().as_str())
-            .bold()
-            .cyan()
+        "{} {} {}",
+        _result.get_name().bold().cyan(),
+        "=".bold().cyan(),
+        _result.get_result().to_string().bold().cyan()
     );
 }
 pub fn output_help(_page: &str) {
-    let help_page = "Help.".to_string() + _page;
+    let help_page: String = "help.".to_string() + _page;
     println!("{}", t!(help_page.as_str()));
 }

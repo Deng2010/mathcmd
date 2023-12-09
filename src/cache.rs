@@ -4,11 +4,12 @@ pub struct Cache {
     pub content: Result<Complex, String>,
     pub digit: Complex,
 }
+
 impl Cache {
-    pub fn new(content: Result<Complex, String>) -> Self {
+    pub fn new() -> Self {
         Self {
-            content,
-            digit: comp!(0.0, 0.0),
+            content: Ok(comp!()),
+            digit: comp!(),
         }
     }
     pub fn clone(&self) -> Self {
@@ -20,7 +21,7 @@ impl Cache {
     pub fn get_digit(&self) -> Complex {
         if self.content.is_err() {
             self.clone().output();
-            return comp!(0.0, 0.0);
+            return comp!();
         }
         self.digit
     }
@@ -35,8 +36,8 @@ impl Cache {
         if self.content.is_ok() {
             self.update_digit(self.content.clone().unwrap());
         } else {
-            self.update_digit(comp!(0.0, 0.0));
-            self.update(Ok(comp!(0.0, 0.0)));
+            self.update_digit(comp!());
+            self.update(Ok(comp!()));
         }
     }
 }

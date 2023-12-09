@@ -1,15 +1,16 @@
-[Error]
-Unknown_Command = "错误: 未知命令"
-Unsupported_Operator = "错误: 不支持的运算符"
-Need_More_Arguments = "错误: 需要更多参数"
-Invalid_Argument = "错误: 无效参数"
+[error]
+unknown_command = "错误: 未知命令"
+unsupported_operator = "错误: 不支持的运算符"
+need_more_arguments = "错误: 需要更多参数"
+invalid_argument = "错误: 无效参数"
 
-[Warning]
-Module_Cannot_Be_Find = "警告: 无法找到该模组"
-The_Cache_Is_Empty = "警告: 缓存为空"
-Equation_Is_Not_Solvable = "警告：方程无法求解"
+[warning]
+module_cannot_be_find = "警告: 无法找到该模组"
+the_cache_is_empty = "警告: 缓存为空"
+equation_is_not_solvable = "警告：方程无法求解"
+func_has_no_verts = "警告: 该函数无顶点"
 
-[Help]
+[help]
 main = """
 命令:
   exit, ex    - 退出程序

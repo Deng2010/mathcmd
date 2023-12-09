@@ -6,6 +6,7 @@ mod mathcmd;
 mod memory;
 mod modules;
 mod output;
+mod point;
 
 #[macro_use]
 extern crate rust_i18n;
@@ -15,7 +16,7 @@ use std::process::exit;
 
 use crate::{
     mathcmd::mathcmd_main as mathcmd,
-    modules::{calc::calc_main as calc, solve::solve_function as solve},
+    modules::{calc::calc_main as calc, solve::solve_main as solve},
     output::{output_help, output_message},
 };
 use current_locale::current_locale;
@@ -26,7 +27,7 @@ fn detector(_page: String) {
         "solve" => solve(),
         "calc" => calc(),
         "main" | "command" => mathcmd(),
-        _ => output_message("Warning.Module_Cannot_Be_Find"),
+        _ => output_message("warning.module_cannot_be_find"),
     }
 }
 
