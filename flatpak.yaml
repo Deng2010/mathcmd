@@ -1,0 +1,14 @@
+id: com.github.Deng2010.mathcmd
+runtime: org.freedesktop.Platform
+runtime-version: "22.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions: [org.freedesktop.Sdk.Extension.rust-stable]
+command: mathcmd
+modules:
+  - name: mathcmd
+    buildsystem: simple
+    build-commands:
+      - install -D mathcmd /app/bin/mathcmd
+    sources:
+      - type: file
+        path: ./target/debug/mathcmd

@@ -1,4 +1,4 @@
-use crate::{comp, complex::Complex, output::output_result};
+use crate::{comp, libs::complex::Complex, libs::output::output_result};
 
 pub struct Cache {
     pub content: Result<Complex, String>,
@@ -39,5 +39,9 @@ impl Cache {
             self.update_digit(comp!());
             self.update(Ok(comp!()));
         }
+    }
+    pub fn update_output(&mut self, new_content: Result<Complex, String>) {
+        self.update(new_content);
+        self.output();
     }
 }

@@ -6,14 +6,13 @@ use std::{
 };
 
 use crate::{
-    cache::Cache,
     comp,
-    complex::Complex,
     functions::*,
-    memory::Memory,
+    libs::cache::Cache,
+    libs::complex::Complex,
+    libs::memory::Memory,
+    libs::output::{command_prompt, output_help, output_message, output_ver},
     modules::solve::solve_main as solve,
-    operators,
-    output::{command_prompt, output_help, output_message, output_ver},
 };
 
 pub fn calculator<'a>(
@@ -58,74 +57,67 @@ pub fn calc_main() {
         let mut _input: String = String::new();
         stdin().read_line(&mut _input).unwrap();
         let mut input = _input.split_whitespace();
-        command = input.next().unwrap_or("");
+        let opt_command: Option<&str> = input.next();
+        if opt_command.is_none() {
+            continue;
+        }
+        command = opt_command.unwrap();
         if command.parse::<Complex>().is_ok() {
             _cache.update_digit(command.parse().unwrap());
             command = "digit";
         }
-        let mut _op: Option<&str> = None;
-        let mut _nxt: Option<&str> = None;
-        let operators = operators!();
+        let mut op: Option<&str> = None;
+        let nxt: Option<&str>;
+        let operators: [&str; 9] = ["+", "-", "*", "**", "/", "//", "^", "%", "log"];
         if operators.contains(&command) {
-            _op = Some(command);
+            op = Some(command);
             command = "operator";
         }
         match command {
             "digit" => {
-                _op = input.next();
-                _nxt = input.next();
-                _cache.update(calculator(_cache.get_digit(), _nxt, _op));
-                _cache.output();
+                op = input.next();
+                nxt = input.next();
+                _cache.update_output(calculator(_cache.get_digit(), nxt, op));
             }
             "operator" => {
-                _nxt = input.next();
-                _cache.update(calculator(_cache.get_digit(), _nxt, _op));
-                _cache.output();
+                nxt = input.next();
+                _cache.update_output(calculator(_cache.get_digit(), nxt, op));
             }
             "solve" => solve(),
             "lg" => {
-                _nxt = input.next();
-                _cache.update(lg(_nxt));
-                _cache.output();
+                nxt = input.next();
+                _cache.update_output(lg(nxt));
             }
             "ln" => {
-                _nxt = input.next();
-                _cache.update(ln(_nxt));
-                _cache.output();
+                nxt = input.next();
+                _cache.update_output(ln(nxt));
             }
             "sqrt" => {
-                _nxt = input.next();
-                _cache.update(sqrt(_nxt));
-                _cache.output();
+                nxt = input.next();
+                _cache.update_output(sqrt(nxt));
             }
             "cbrt" => {
-                _nxt = input.next();
-                _cache.update(cbrt(_nxt));
-                _cache.output();
+                nxt = input.next();
+                _cache.update_output(cbrt(nxt));
             }
             "pi" => {
-                _cache.update(Ok(comp!(PI)));
-                _cache.output();
+                _cache.update_output(Ok(comp!(PI)));
             }
             "tau" => {
-                _cache.update(Ok(comp!(TAU)));
-                _cache.output();
+                _cache.update_output(Ok(comp!(TAU)));
             }
             "m+" => _mem += _cache.get_digit(),
             "m-" => _mem -= _cache.get_digit(),
             "mr" => {
-                _cache.update(Ok(_mem.get()));
-                _cache.output();
+                _cache.update_output(Ok(_mem.get()));
             }
             "mc" => _mem.reset(),
             "mrc" => {
-                _cache.update(Ok(_mem.get()));
-                _cache.output();
+                _cache.update_output(Ok(_mem.get()));
                 _mem.reset();
             }
             "exit" | "ex" => break,
             "version" | "ver" | "v" => output_ver(),
-            "" => (),
             "help" | "h" => output_help(page),
             _ => output_message("error.unknown_command"),
         }

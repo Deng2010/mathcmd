@@ -1,6 +1,6 @@
 use std::ops::{AddAssign, SubAssign};
 
-use crate::{comp, complex::Complex};
+use crate::{comp, libs::complex::Complex};
 
 pub struct Memory {
     mem: Complex,

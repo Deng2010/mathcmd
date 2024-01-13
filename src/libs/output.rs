@@ -1,28 +1,31 @@
-use crate::{complex::Complex, modules::solve::FunctionResult, point::Point, version};
+use crate::{
+    libs::complex::Complex, libs::expression::FunctionResult, libs::point::Point, VERSION,
+};
 use colored::*;
 use std::io::{self, Write};
 pub fn command_prompt(_current: &str) {
-    println!("{}", _current.bold().bright_green());
-    print!("{} ", ">".bright_cyan());
-    io::stdout().flush().unwrap();
+    let mut handle = io::BufWriter::new(io::stdout());
+    writeln!(handle, "{}", _current.bold().bright_green()).unwrap();
+    write!(handle, "{} ", ">".bright_cyan()).unwrap();
+    handle.flush().unwrap();
 }
 pub fn output_ver() {
-    println!("MATHcmd v{}", version!());
+    writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v{}", VERSION).unwrap();
 }
 pub fn output_message(_message: &str) {
-    let _message = _message.to_ascii_lowercase();
+    let mut handle = io::BufWriter::new(io::stderr());
     if _message.starts_with("error") {
-        println!("{}", t!(_message.as_str()).bold().red());
+        writeln!(handle, "{}", t!(_message).bold().red()).unwrap();
     } else if _message.starts_with("warning") {
-        println!("{}", t!(_message.as_str()).bold().yellow());
+        writeln!(handle, "{}", t!(_message).bold().yellow()).unwrap();
     } else {
-        println!("{}", t!(_message.as_str()).bold().italic().bright_cyan());
+        writeln!(handle, "{}", t!(_message).bold().italic().bright_cyan()).unwrap();
     }
 }
 pub fn output_result(_result: Result<Complex, String>) {
     match _result {
         Ok(x) => println!("{} {}", "=".bold().cyan(), x.to_string().bold().cyan()),
-        Err(err) => output_message(err.as_str()),
+        Err(e) => output_message(e.as_str()),
     }
 }
 pub fn output_point(_point: Point) {

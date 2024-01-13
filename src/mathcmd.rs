@@ -1,11 +1,11 @@
 //Current page: main
 
-use crate::{
+use crate::libs::{
     cache::Cache,
     memory::Memory,
-    modules::{calc::calc_main as calc, solve::solve_main as solve},
     output::{command_prompt, output_help, output_message, output_ver},
 };
+use crate::modules::{calc::calc_main as calc, geo::geo_main as geo, solve::solve_main as solve};
 use std::io::stdin;
 pub fn mathcmd_main() {
     let page: &str = "main";
@@ -18,6 +18,7 @@ pub fn mathcmd_main() {
         match input.trim() {
             "calc" => calc(),
             "solve" => solve(),
+            "geo" => geo(),
             "exit" | "ex" => break,
             "version" | "ver" | "v" => output_ver(),
             "" => (),

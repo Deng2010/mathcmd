@@ -1,4 +1,4 @@
-use crate::{comp, complex::Complex};
+use crate::{comp, libs::complex::Complex};
 
 pub fn lg(a: Option<&str>) -> Result<Complex, String> {
     if a.is_none() {
