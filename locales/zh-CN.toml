@@ -44,6 +44,6 @@ command = """
 用法: mathcmd [模块] [选项]
 模块:
   calc        - 基本计算
-  solve       - 求解数学方程: 
+  solve       - 求解数学方程 
 选项:
   --help, -h  - 显示帮助"""

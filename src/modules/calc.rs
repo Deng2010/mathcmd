@@ -6,7 +6,7 @@ use std::{
 };
 
 use crate::{
-    comp,
+    comp, err,
     functions::*,
     libs::cache::Cache,
     libs::complex::Complex,
@@ -24,11 +24,11 @@ pub fn calculator<'a>(
         return Ok(lhs);
     }
     if rhs.is_none() {
-        return Err("error.need_more_arguments".to_string());
+        err!("error.need_more_arguments")
     }
     let rhs = rhs.unwrap().to_owned().parse();
     if rhs.is_err() {
-        return Err("error.invalid_argument".to_string());
+        err!("error.invalid_argument")
     }
     let rhs: Complex = rhs.unwrap();
     let op = op.unwrap();

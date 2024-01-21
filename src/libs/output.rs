@@ -1,6 +1,4 @@
-use crate::{
-    libs::complex::Complex, libs::expression::FunctionResult, libs::point::Point, VERSION,
-};
+use crate::{libs::complex::Complex, libs::expression::FunctionResult, libs::point::Point};
 use colored::*;
 use std::io::{self, Write};
 pub fn command_prompt(_current: &str) {
@@ -10,7 +8,7 @@ pub fn command_prompt(_current: &str) {
     handle.flush().unwrap();
 }
 pub fn output_ver() {
-    writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v{}", VERSION).unwrap();
+    writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v0.3.2").unwrap();
 }
 pub fn output_message(_message: &str) {
     let mut handle = io::BufWriter::new(io::stderr());
