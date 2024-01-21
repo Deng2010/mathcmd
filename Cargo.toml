@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 colored = "2.1.0"
 current_locale = "0.1.1"
-rust-i18n = "2.3.0"
+rust-i18n = "3.0.0"
 clap = { version = "4.4.16", features = ["derive"] }

@@ -1,0 +1,49 @@
+error:
+  unknown_command: "ERREUR: Command inconnue"
+  unsupported_operator: "ERREUR: Opérateur non supporté"
+  need_more_arguments: "ERREUR: Il manque des arguments"
+  invalid_argument: "ERREUR: Argument invalide"
+
+warning:
+  module_cannot_be_find: "ATTENTION: le module est introuvable"
+  the_cache_is_empty: "ATTENTION: Le cache est vide"
+  equation_is_not_solvable: "ATTENTION: Le équation n'est pas résoluble"
+  func_has_no_verts: "ATTENTION: Cette fonction n'a pas de sommets"
+
+help:
+  main: |
+    Commandes:
+      exit, ex    - Quitter le programme
+      help, h     - Imprimer l'aide
+      ver , v     - Version imprimable
+    Modules:
+      calc        - calculs de base
+      solve       - Résoudre une équation
+  solve: |
+    Résoudre:
+      left a(x)(b)    - Opérande gauche
+      right a(x)(b)   - Opérande droit
+      end             - Fin de l'entrée
+      reset           - Réinitialisation
+      exit, ex        - Quitter le programme
+      help, h         - Imprimer l'aide
+  calc: |
+    Opérateurs:
+      a + b       - Addition
+      a - b       - Soustraction
+      a * b       - Multiplication
+      a / b       - Division
+      a % b       - Modulo
+      a ^ b       - Puissance
+      a log b     - Logarithme
+      ln a        - Logarithme naturel
+      lg a        - Logarithme base 2
+      sqrt a      - Radical
+      cbrt a      - Radical cube
+  command: |
+    Utilisation : mathcmd [module] [possibilités]
+    Module:
+      calc - calculs de base
+      solve - Résoudre des équations mathématiques
+    Possibilités :
+      --help, -h - afficher l'aide

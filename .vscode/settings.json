@@ -3,6 +3,7 @@
     "i18n-ally.localesPaths": [
         "locales"
     ],
+    "i18n-ally.sourceLanguage": "zh-CN",
     "rust-analyzer.linkedProjects": [
         "./Cargo.toml"
     ],
@@ -19,5 +20,6 @@
     "rust-analyzer.check.command": "clippy",
     "[yaml]": {
         "editor.defaultFormatter": "redhat.vscode-yaml"
-    }
+    },
+    "i18n-ally.keystyle": "nested"
 }
