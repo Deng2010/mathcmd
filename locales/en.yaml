@@ -1,15 +1,16 @@
 error:
-  unknown_command: "ERROR: Unknown command"
-  unsupported_operator: "ERROR: Unsupported operator"
-  need_more_arguments: "ERROR: Need more arguments"
-  invalid_argument: "ERROR: Invalid argument"
-
+  unknown_command: 'ERROR: Unknown command'
+  unsupported_operator: 'ERROR: Unsupported operator'
+  need_more_arguments: 'ERROR: Need more arguments'
+  invalid_argument: 'ERROR: Invalid argument'
 warning:
-  module_cannot_be_find: "WARNING: The module cannot be found"
-  the_cache_is_empty: "WARNING: The cache is empty"
-  equation_is_not_solvable: "WARNING: Equation is not solvable"
-  func_has_no_verts: "WARNING: This function has no vertices"
-
+  module_cannot_be_find: 'WARNING: The module cannot be found'
+  the_cache_is_empty: 'WARNING: The cache is empty'
+  equation_is_not_solvable: 'WARNING: Equation is not solvable'
+  func_has_no_verts: 'WARNING: This function has no vertices'
+  ver_cmd_deprecated: >-
+    WARNING: The 'ver' command is deprecated, use 'mathcmd -V' in your shell
+    instead
 help:
   main: |
     Commands:

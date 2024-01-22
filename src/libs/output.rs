@@ -8,7 +8,13 @@ pub fn command_prompt(_current: &str) {
     handle.flush().unwrap();
 }
 pub fn output_ver() {
-    writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v0.3.2").unwrap();
+    //writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v0.3.2").unwrap();
+    writeln!(
+        io::BufWriter::new(io::stdout()),
+        "{}",
+        t!("warning.ver_cmd_deprecated")
+    )
+    .unwrap();
 }
 pub fn output_message(_message: &str) {
     let mut handle = io::BufWriter::new(io::stderr());
