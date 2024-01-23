@@ -1,4 +1,5 @@
-/target
-/flatpak
-/com.github.Deng2010.mathcmd
-/.flatpak-builder
+target/
+flatpak/
+com.github.Deng2010.mathcmd/
+.flatpak-builder/
+Cargo.lock
