@@ -9,6 +9,7 @@ warning:
   the_cache_is_empty: "警告: 缓存为空"
   equation_is_not_solvable: "警告：方程无法求解"
   func_has_no_verts: "警告: 该函数无顶点"
+  ver_cmd_deprecated: "警告: ver命令已过时，在shell中使用mathcmd -V代替"
 
 help:
   main: |

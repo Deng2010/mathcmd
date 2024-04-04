@@ -1,5 +1,13 @@
 target/
+
 flatpak/
+
 com.github.Deng2010.mathcmd/
+
 .flatpak-builder/
+
+pakkpkg/
+
 Cargo.lock
+
+.metadata/

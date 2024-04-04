@@ -1,8 +1,8 @@
 use crate::{libs::complex::Complex, libs::expression::FunctionResult, libs::point::Point};
 use colored::*;
-use std::io::{self, Write};
+use std::io::{self, BufWriter, Write};
 pub fn command_prompt(_current: &str) {
-    let mut handle = io::BufWriter::new(io::stdout());
+    let mut handle = BufWriter::new(io::stdout());
     writeln!(handle, "{}", _current.bold().bright_green()).unwrap();
     write!(handle, "{} ", ">".bright_cyan()).unwrap();
     handle.flush().unwrap();
@@ -10,19 +10,19 @@ pub fn command_prompt(_current: &str) {
 pub fn output_ver() {
     //writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v0.3.2").unwrap();
     writeln!(
-        io::BufWriter::new(io::stdout()),
+        BufWriter::new(io::stdout()),
         "{}",
         t!("warning.ver_cmd_deprecated")
     )
     .unwrap();
 }
 pub fn output_message(_message: &str) {
-    let mut handle = io::BufWriter::new(io::stderr());
+    let mut handle = BufWriter::new(io::stderr());
     if _message.starts_with("error") {
         writeln!(handle, "{}", t!(_message).bold().red()).unwrap();
     } else if _message.starts_with("warning") {
         writeln!(handle, "{}", t!(_message).bold().yellow()).unwrap();
-    } else {
+    } else if _message != "none" {
         writeln!(handle, "{}", t!(_message).bold().italic().bright_cyan()).unwrap();
     }
 }

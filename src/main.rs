@@ -19,7 +19,7 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Choose modules
+    /// Choose modules  
     #[command(subcommand)]
     modules: Option<Modules>,
 }
@@ -32,17 +32,19 @@ enum Modules {
     /// Geometry Calculations
     Geo,
 }
-fn main() {
-    let args: Args = Args::parse();
-    if args.modules.is_some() {
-        let modules: &Modules = args.modules.as_ref().unwrap();
-        match modules {
-            Modules::Calc => calc(),
-            Modules::Solve => solve(),
-            Modules::Geo => geo(),
-        }
-    } else {
-        mathcmd()
-    }
+
+fn main() -> Result<(), ()> {
     rust_i18n::set_locale(current_locale().unwrap_or("en".to_owned()).as_str());
+    let args: Args = Args::parse();
+    if args.modules.is_none() {
+        mathcmd();
+        return Ok(());
+    }
+    let modules: &Modules = args.modules.as_ref().unwrap();
+    match modules {
+        Modules::Calc => calc(),
+        Modules::Solve => solve(),
+        Modules::Geo => geo(),
+    }
+    Ok(())
 }

@@ -9,6 +9,7 @@ warning:
   the_cache_is_empty: "ATTENTION: Le cache est vide"
   equation_is_not_solvable: "ATTENTION: Le équation n'est pas résoluble"
   func_has_no_verts: "ATTENTION: Cette fonction n'a pas de sommets"
+  ver_cmd_deprecated: "ATTENTION: La commande 'ver' est obsolète, utilisez 'mathcmd -V' dans votre shell"
 
 help:
   main: |
