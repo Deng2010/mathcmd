@@ -17,20 +17,6 @@ macro_rules! comp {
     };
 }
 
-pub fn to_compstr(s: &str) -> String {
-    let str: String;
-    if s.ends_with("+i") {
-        str = s.replace('i', "1i");
-    } else if s.contains('+') {
-        str = String::from(s);
-    } else if s.ends_with('i') {
-        str = String::from("0+") + if s == "i" { "1i" } else { s };
-    } else {
-        str = String::from(s) + "+0i";
-    }
-    str
-}
-
 #[derive(PartialEq, Copy, Clone, Debug, Default)]
 pub struct Complex {
     pub re: f64,
@@ -50,20 +36,22 @@ impl Complex {
             }
             return comp!(f64::sqrt(a.re));
         }
-        let s = f64::sqrt((f64::sqrt(a.re * a.re + a.im * a.im) + a.re) / 2.0);
+        let s: f64 = f64::sqrt((f64::sqrt(a.re * a.re + a.im * a.im) + a.re) / 2.0);
         comp!(s, a.im / f64::abs(a.im) * (s - a.re))
     }
     pub fn pow(a: Complex, b: u32) -> Complex {
-        if b == 0 {
-            return comp!(1.0);
+        match b {
+            0 => comp!(1.0),
+            1 => a,
+            _ if b % 2 == 0 => {
+                let k: Complex = Complex::pow(a, b / 2);
+                k * k
+            }
+            _ => {
+                let k: Complex = Complex::pow(a, b / 2);
+                k * k * a
+            }
         }
-        if b == 1 {
-            return a;
-        }
-        if b % 2 == 0 {
-            return Complex::pow(a, b / 2) * Complex::pow(a, b / 2);
-        }
-        Complex::pow(a, b / 2) * Complex::pow(a, b / 2) * a
     }
 }
 
@@ -213,15 +201,38 @@ pub struct ParseComplexError;
 impl FromStr for Complex {
     type Err = ParseComplexError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let s: String = to_compstr(s);
-        let (x, y) = s
-            .strip_suffix('i')
-            .and_then(|str| str.split_once('+'))
-            .ok_or(ParseComplexError)?;
+        if s.contains('+') {
+            let (x, y) = s
+                .strip_suffix('i')
+                .and_then(|str| str.split_once('+'))
+                .ok_or(ParseComplexError)?;
 
-        let x_fromstr: f64 = x.parse().map_err(|_| ParseComplexError)?;
-        let y_fromstr: f64 = y.parse().map_err(|_| ParseComplexError)?;
-
-        Ok(comp!(x_fromstr, y_fromstr))
+            Ok(comp!(
+                x.parse().map_err(|_| ParseComplexError)?,
+                y.parse().map_err(|_| ParseComplexError)?
+            ))
+        } else if s == "i" {
+            Ok(comp!(0.0, 1.0))
+        } else if s.ends_with('i') {
+            Ok(comp!(
+                0.0,
+                s.strip_suffix('i')
+                    .unwrap()
+                    .parse()
+                    .map_err(|_| ParseComplexError)?
+            ))
+        } else {
+            Ok(comp!(s.parse().map_err(|_| ParseComplexError)?))
+        }
     }
+}
+
+pub mod consts {
+    use std::f64::consts::{E, PI, TAU};
+
+    use super::Complex;
+
+    pub const CPI: Complex = Complex { re: PI, im: 0.0 };
+    pub const CE: Complex = Complex { re: E, im: 0.0 };
+    pub const CTAU: Complex = Complex { re: TAU, im: 0.0 };
 }

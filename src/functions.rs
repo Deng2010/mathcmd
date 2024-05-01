@@ -1,47 +1,47 @@
 use crate::{comp, err, libs::complex::Complex};
 
 pub fn lg(a: Option<&str>) -> Result<Complex, String> {
-    if a.is_none() {
-        err!("error.need_more_arguments");
+    if let Some(a) = a {
+        if let Ok(a) = a.parse::<f64>() {
+            return Ok(comp!(f64::log2(a)));
+        }
+        err!("error.invalid_argument")
+    } else {
+        err!("error.need_more_arguments")
     }
-    let a: &str = a.unwrap();
-    if a.parse::<f64>().is_err() {
-        err!("error.invalid_argument");
-    }
-    Ok(comp!(f64::log2(a.parse().unwrap()), 0.0))
 }
 
 pub fn ln(a: Option<&str>) -> Result<Complex, String> {
-    if a.is_none() {
-        err!("error.need_more_arguments");
+    if let Some(a) = a {
+        if let Ok(a) = a.parse::<f64>() {
+            return Ok(comp!(f64::ln(a)));
+        }
+        err!("error.invalid_argument")
+    } else {
+        err!("error.need_more_arguments")
     }
-    let a: &str = a.unwrap();
-    if a.parse::<f64>().is_err() {
-        err!("error.invalid_argument");
-    }
-    Ok(comp!(f64::ln(a.parse().unwrap()), 0.0))
 }
 
 pub fn sqrt(a: Option<&str>) -> Result<Complex, String> {
-    if a.is_none() {
-        err!("error.need_more_arguments");
+    if let Some(a) = a {
+        if let Ok(a) = a.parse::<Complex>() {
+            return Ok(Complex::sqrt(a));
+        }
+        err!("error.invalid_argument")
+    } else {
+        err!("error.need_more_arguments")
     }
-    let a: &str = a.unwrap();
-    if a.parse::<Complex>().is_err() {
-        err!("error.invalid_argument");
-    }
-    Ok(Complex::sqrt(a.parse().unwrap()))
 }
 
 pub fn cbrt(a: Option<&str>) -> Result<Complex, String> {
-    if a.is_none() {
-        err!("error.need_more_arguments");
+    if let Some(a) = a {
+        if let Ok(a) = a.parse::<f64>() {
+            return Ok(comp!(f64::cbrt(a)));
+        }
+        err!("error.invalid_argument")
+    } else {
+        err!("error.need_more_arguments")
     }
-    let a: &str = a.unwrap();
-    if a.parse::<f64>().is_err() {
-        err!("error.invalid_argument");
-    }
-    Ok(comp!(f64::cbrt(a.parse().unwrap()), 0.0))
 }
 
 pub fn heron_formula(a: Complex, b: Complex, c: Complex) -> Complex {

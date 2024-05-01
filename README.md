@@ -11,8 +11,16 @@
 
 ## Install
 
-### Install from cargo
+### Install from Cargo
 
 ```sh
 cargo install --git https://github.com/Deng2010/mathcmd
+```
+### Install for Archlinux
+
+```sh
+mkdir -p ~/build/mathcmd
+cd ~/build/mathcmd
+curl -sS https://raw.githubusercontent.com/Deng2010/mathcmd/main/PKGBUILD
+makepkg -si
 ```

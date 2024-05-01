@@ -8,6 +8,8 @@ mod modules;
 extern crate rust_i18n;
 i18n!("locales", fallback = "en");
 
+use std::env;
+
 use crate::{
     mathcmd::mathcmd_main as mathcmd,
     modules::{calc::calc_main as calc, geo::geo_main as geo, solve::solve_main as solve},
@@ -27,24 +29,24 @@ struct Args {
 enum Modules {
     /// Basic calculations
     Calc,
-    /// Solve Mathematical equations
+    /// Solve mathematical equations
     Solve,
-    /// Geometry Calculations
+    /// Geometry calculations
     Geo,
 }
 
 fn main() -> Result<(), ()> {
+    env::set_var("mathcmd_page", "main");
     rust_i18n::set_locale(current_locale().unwrap_or("en".to_owned()).as_str());
     let args: Args = Args::parse();
-    if args.modules.is_none() {
+    if let Some(modules) = args.modules.as_ref() {
+        match modules {
+            Modules::Calc => calc(),
+            Modules::Solve => solve(),
+            Modules::Geo => geo(),
+        }
+    } else {
         mathcmd();
-        return Ok(());
-    }
-    let modules: &Modules = args.modules.as_ref().unwrap();
-    match modules {
-        Modules::Calc => calc(),
-        Modules::Solve => solve(),
-        Modules::Geo => geo(),
     }
     Ok(())
 }

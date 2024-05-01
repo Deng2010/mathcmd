@@ -1,101 +1,76 @@
 //Current page: geo
 
-use std::{collections::HashMap, io::stdin};
+use std::{collections::HashMap, env, io::stdin, str::SplitWhitespace};
 
 use crate::{
     functions::heron_formula,
     libs::{
         complex::Complex,
-        memory::Memory,
-        output::{command_prompt, output_help, output_result},
+        output::{command_prompt, print_result},
         point::{Line, Point},
     },
+    print_help,
 };
 
-const PAGE: &str = "geo";
-
 pub fn geo_main() {
+    env::set_var("mathcmd_page", "geo");
     let mut points: HashMap<String, Point> = HashMap::new();
     let mut lines: HashMap<String, Line> = HashMap::new();
-    let mut command: &str;
-    let mut _mem: Memory = Memory::new();
+    let mut input: SplitWhitespace;
     loop {
         command_prompt("mathcmd->geo");
-        let mut input: String = String::new();
-        stdin().read_line(&mut input).unwrap();
-        let mut input = input.split_whitespace();
+        let mut _input: String = String::new();
+        stdin().read_line(&mut _input).unwrap();
+        input = _input.split_whitespace();
         if input.clone().count() == 0 {
             continue;
         }
-        let opt_command: Option<&str> = input.next();
-        if opt_command.is_none() {
-            continue;
-        }
-        command = opt_command.unwrap();
-        let cache: Result<Complex, String> = match command {
-            "point" => {
-                let (name, x, y): (Option<&str>, Option<&str>, Option<&str>) =
-                    (input.next(), input.next(), input.next());
-                let _point: Result<Point, String> = Point::new_option(x, y);
-                if let Err(e) = _point {
-                    Err(e)
-                } else {
-                    let name = name.unwrap();
-                    points.insert(name.to_owned(), _point.unwrap());
-                    Err(String::from("none"))
-                }
-            }
-            "line" => {
-                let (name, xname, yname): (Option<&str>, Option<&str>, Option<&str>) =
-                    (input.next(), input.next(), input.next());
-                if let (Some(x), Some(y)) = (xname, yname) {
-                    let name: &str = name.unwrap();
-                    let _line: Result<Line, String> =
-                        Line::new_option(points.get(x), points.get(y));
-                    if let Err(e) = _line {
-                        Err(e)
-                    } else {
-                        lines.insert(name.to_owned(), _line.unwrap());
-                        Err(String::from("none"))
+        let cache: Result<Complex, String> = match input.next().unwrap() {
+            "point" => match (input.next(), input.next(), input.next()) {
+                (Some(name), Some(x), Some(y)) => {
+                    match (x.parse::<Complex>(), y.parse::<Complex>()) {
+                        (Ok(x), Ok(y)) => {
+                            points.insert(name.to_owned(), Point::new(x, y));
+                            Err(String::from("none"))
+                        }
+                        _ => Err("error.invalid_argument".to_string()),
                     }
-                } else {
-                    Err("error.need_more_arguments".to_string())
                 }
-            }
-            "dis" => {
-                let name: Option<&str> = input.next();
-                if let Some(name) = name {
-                    if let Some(line) = lines.get(name) {
-                        Ok(line.dis())
-                    } else {
-                        Err("error.invalid_argument".to_string())
+                _ => Err("error.need_more_arguments".to_string()),
+            },
+            "line" => match (input.next(), input.next(), input.next()) {
+                (Some(name), Some(x), Some(y)) => {
+                    match Line::new_option(points.get(x), points.get(y)) {
+                        Ok(x) => {
+                            lines.insert(name.to_owned(), x);
+                            Err(String::from("none"))
+                        }
+                        Err(e) => Err(e),
                     }
-                } else {
-                    Err("error.need_more_arguments".to_string())
                 }
-            }
-            "triarea" => {
-                let (a, b, c): (Option<&str>, Option<&str>, Option<&str>) =
-                    (input.next(), input.next(), input.next());
-                if let (Some(a), Some(b), Some(c)) = (a, b, c) {
-                    let (a, b, c): (Option<&Line>, Option<&Line>, Option<&Line>) =
-                        (lines.get(a), lines.get(b), lines.get(c));
-                    if let (Some(a), Some(b), Some(c)) = (a, b, c) {
-                        Ok(heron_formula(a.dis(), b.dis(), c.dis()))
-                    } else {
-                        Err("error.invalid_argument".to_string())
-                    }
-                } else {
-                    Err("error.need_more_arguments".to_string())
-                }
-            }
+                _ => Err("error.need_more_arguments".to_string()),
+            },
+            "dis" => match input.next() {
+                Some(name) => match lines.get(name) {
+                    Some(x) => Ok(x.dis()),
+                    None => Err("error.invalid_argument".to_string()),
+                },
+                None => Err("error.need_more_arguments".to_string()),
+            },
+            "triarea" => match (input.next(), input.next(), input.next()) {
+                (Some(a), Some(b), Some(c)) => match (lines.get(a), lines.get(b), lines.get(c)) {
+                    (Some(a), Some(b), Some(c)) => Ok(heron_formula(a.dis(), b.dis(), c.dis())),
+                    _ => Err("error.invalid_argument".to_string()),
+                },
+                _ => Err("error.need_more_arguments".to_string()),
+            },
             "exit" | "ex" => break,
             "help" | "h" => {
-                output_help(PAGE);
+                print_help!();
                 Err(String::from("none"))
             }
             _ => Err(String::from("error.unknown_command")),
         };
-        output_result(cache);
+        print_result(cache);
     }
 }

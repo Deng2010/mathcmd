@@ -1,20 +1,19 @@
 //Current page: calc
 
-use std::{
-    f64::consts::{PI, TAU},
-    io::stdin,
-    str::SplitWhitespace,
-};
+use std::{env, io, str::SplitWhitespace};
 
 use crate::{
     comp, err,
     functions::*,
     libs::{
-        complex::Complex,
+        complex::{
+            consts::{CE, CPI, CTAU},
+            Complex,
+        },
         memory::Memory,
-        output::{command_prompt, output_help, output_result},
+        output::{command_prompt, print_result},
     },
-    modules::solve::solve_main as solve,
+    print_help, print_ver,
 };
 
 pub fn calculator<'a>(
@@ -22,97 +21,87 @@ pub fn calculator<'a>(
     rhs: Option<&'a str>,
     op: Option<&'a str>,
 ) -> Result<Complex, String> {
-    if op.is_none() {
-        return Ok(lhs);
-    }
-    if rhs.is_none() {
-        err!("error.need_more_arguments")
-    }
-    let rhs = rhs.unwrap().to_owned().parse();
-    if rhs.is_err() {
-        err!("error.invalid_argument")
-    }
-    let rhs: Complex = rhs.unwrap();
-    let op = op.unwrap();
-    match op {
-        "+" => Ok(lhs + rhs),
-        "-" => Ok(lhs - rhs),
-        "*" => Ok(lhs * rhs),
-        "/" => Ok(lhs / rhs),
-        "//" => Ok(comp!(
-            (lhs.to_num() as i64 / rhs.to_num() as i64) as f64,
-            0.0
-        )),
-        "%" => Ok(comp!(lhs.to_num() % rhs.to_num(), 0.0)),
-        "^" | "**" => Ok(Complex::pow(lhs, rhs.to_num() as u32)),
-        "log" => Ok(comp!(f64::log(lhs.to_num(), rhs.to_num()), 0.0)),
-        _ => Err("error.unsupported_operator".to_string()),
+    if let Some(op) = op {
+        if let Some(rhs) = rhs {
+            if let Ok(rhs) = rhs.to_owned().parse::<Complex>() {
+                match op {
+                    "+" => Ok(lhs + rhs),
+                    "-" => Ok(lhs - rhs),
+                    "*" => Ok(lhs * rhs),
+                    "/" => Ok(lhs / rhs),
+                    "//" => Ok(comp!((lhs / rhs).to_num().floor())),
+                    "%" => Ok(comp!(lhs.to_num() % rhs.to_num())),
+                    "^" | "**" => Ok(Complex::pow(lhs, rhs.to_num() as u32)),
+                    "log" => Ok(comp!(f64::log(lhs.to_num(), rhs.to_num()))),
+                    _ => err!("error.unsupported_operator"),
+                }
+            } else {
+                err!("error.invalid_argument")
+            }
+        } else {
+            err!("error.need_more_arguments")
+        }
+    } else {
+        Ok(lhs)
     }
 }
 
-const PAGE: &str = "calc";
+static OPERATOR_MAP: &[&str; 9] = &["+", "-", "*", "**", "/", "//", "^", "%", "log"];
 
 pub fn calc_main() {
+    env::set_var("mathcmd_page", "calc");
     let mut cache: Complex = comp!();
-    let mut _mem: Memory = Memory::new();
+    let mut mem: Memory = Memory::new();
+    let mut input: SplitWhitespace;
     loop {
         command_prompt("mathcmd->calc");
-        let mut input: String = String::new();
-        stdin().read_line(&mut input).unwrap();
-        let mut input: SplitWhitespace = input.split_whitespace();
+        let mut reading: String = String::new();
+        io::stdin()
+            .read_line(&mut reading)
+            .expect("Failed to read input");
+        input = reading.split_whitespace();
         if input.clone().count() == 0 {
             continue;
         }
-        let mut command: &str = input.next().unwrap();
-        if command.parse::<Complex>().is_ok() {
-            cache = command.parse().unwrap();
-            command = "digit";
-        }
-        let nxt: Option<&str>;
-        let operators: [&str; 9] = ["+", "-", "*", "**", "/", "//", "^", "%", "log"];
-        let op: Option<&str> = match operators.contains(&command) {
-            true => Some(command),
-            false => None,
-        };
-        if op.is_some() {
-            command = "operator";
-        }
+        let command: &str = input.next().unwrap();
+        let (command, op, nxt): (&str, Option<&str>, Option<&str>) =
+            if let Ok(lhs) = command.parse::<Complex>() {
+                cache = lhs;
+                ("expr", input.next(), input.next())
+            } else if OPERATOR_MAP.contains(&command) {
+                let tmp: &str = command;
+                ("expr", Some(tmp), input.next())
+            } else {
+                (command, None, input.next())
+            };
         let _cache: Result<Complex, String> = match command {
-            "digit" => {
-                let op: Option<&str> = input.next();
-                nxt = input.next();
-                calculator(cache, nxt, op)
-            }
-            "operator" => {
-                nxt = input.next();
-                calculator(cache, nxt, op)
-            }
-            "solve" => {
-                solve();
-                Err(String::from("none"))
-            }
-            "lg" => lg(input.next()),
-            "ln" => ln(input.next()),
-            "sqrt" => sqrt(input.next()),
-            "cbrt" => cbrt(input.next()),
-            "pi" => Ok(comp!(PI)),
-            "tau" => Ok(comp!(TAU)),
-            "e" => Ok(comp!(f64::exp(1.0))),
-            "m+" => _mem.add(cache),
-            "m-" => _mem.sub(cache),
-            "mr" => Ok(_mem.get()),
-            "mc" => _mem.reset(),
-            "mrc" => _mem.get_reset(),
+            "expr" => calculator(cache, nxt, op),
+            "lg" => lg(nxt),
+            "ln" => ln(nxt),
+            "sqrt" => sqrt(nxt),
+            "cbrt" => cbrt(nxt),
+            "pi" => Ok(CPI),
+            "tau" => Ok(CTAU),
+            "e" => Ok(CE),
+            "m+" => mem.add(cache),
+            "m-" => mem.sub(cache),
+            "mr" => Ok(mem.get()),
+            "mc" => mem.reset(),
+            "mrc" => mem.get_reset(),
             "exit" | "ex" => break,
+            "version" | "ver" | "v" => {
+                print_ver!();
+                err!("none")
+            }
             "help" | "h" => {
-                output_help(PAGE);
+                print_help!();
                 Err(String::from("none"))
             }
             _ => Err(String::from("error.unknown_command")),
         };
-        if _cache.is_ok() {
-            cache = _cache.clone().unwrap();
+        if let Ok(x) = _cache {
+            cache = x;
         }
-        output_result(_cache);
+        print_result(_cache);
     }
 }

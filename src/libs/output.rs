@@ -7,16 +7,23 @@ pub fn command_prompt(_current: &str) {
     write!(handle, "{} ", ">".bright_cyan()).unwrap();
     handle.flush().unwrap();
 }
-pub fn output_ver() {
-    //writeln!(io::BufWriter::new(io::stdout()), "MATHcmd v0.3.2").unwrap();
-    writeln!(
-        BufWriter::new(io::stdout()),
-        "{}",
-        t!("warning.ver_cmd_deprecated")
-    )
-    .unwrap();
+
+#[macro_export]
+macro_rules! print_ver {
+    () => {
+        println!("mathcmd {}", env!("CARGO_PKG_VERSION"))
+    };
 }
-pub fn output_message(_message: &str) {
+#[macro_export]
+macro_rules! print_help {
+    () => {
+        println!(
+            "{}",
+            t!((String::from("help.") + std::env::var("mathcmd_page").unwrap().as_str()).as_str())
+        )
+    };
+}
+pub fn print_message(_message: &str) {
     let mut handle = BufWriter::new(io::stderr());
     if _message.starts_with("error") {
         writeln!(handle, "{}", t!(_message).bold().red()).unwrap();
@@ -26,24 +33,20 @@ pub fn output_message(_message: &str) {
         writeln!(handle, "{}", t!(_message).bold().italic().bright_cyan()).unwrap();
     }
 }
-pub fn output_result(_result: Result<Complex, String>) {
+pub fn print_result(_result: Result<Complex, String>) {
     match _result {
         Ok(x) => println!("{} {}", "=".bold().cyan(), x.to_string().bold().cyan()),
-        Err(e) => output_message(e.as_str()),
+        Err(e) => print_message(e.as_str()),
     }
 }
-pub fn output_point(_point: Point) {
+pub fn print_point(_point: Point) {
     println!("{}", _point.to_string().bold().cyan());
 }
-pub fn output_function_result(_result: FunctionResult) {
+pub fn print_function_result(_result: FunctionResult) {
     println!(
         "{} {} {}",
         _result.get_name().bold().cyan(),
         "=".bold().cyan(),
         _result.get_result().to_string().bold().cyan()
     );
-}
-pub fn output_help(_page: &str) {
-    let help_page: String = "help.".to_string() + _page;
-    println!("{}", t!(help_page.as_str()));
 }

@@ -1,7 +1,7 @@
 use std::str::SplitWhitespace;
 
 use crate::libs::complex::Complex;
-use crate::libs::output::{output_function_result, output_message, output_point};
+use crate::libs::output::{print_function_result, print_message, print_point};
 use crate::libs::point::Point;
 use crate::{comp, point};
 
@@ -48,76 +48,65 @@ impl Expression {
     }
     pub fn solve(&mut self) {
         self.update_top();
-        for i in (1..5).rev() {
-            if self.coe[i] != comp!() {
-                self.top = i;
-                break;
-            }
-        }
         match self.top {
             1 => self.solve1(),
             2 => self.solve2(),
-            _ => output_message("warning.equation_is_not_solvable"),
+            _ => print_message("warning.equation_is_not_solvable"),
         }
         self.reset();
     }
     pub fn solve1(&mut self) {
         let x: FunctionResult = FunctionResult::new("x", -self.coe[0] / self.coe[1]);
-        output_function_result(x);
+        print_function_result(x);
     }
     pub fn solve2(&mut self) {
         let s: Complex = -self.coe[1] / (self.coe[2] * 2.0);
-        let l: Complex = self.coe[0] / self.coe[2];
-        let x1: FunctionResult = FunctionResult::new("x1", s + Complex::sqrt(s * s + l));
-        output_function_result(x1);
-        if s * s == l {
-            return;
+        let dlt: Complex = s * s - self.coe[0] / self.coe[2];
+        let (x1, x2): (FunctionResult, FunctionResult) = (
+            FunctionResult::new(if dlt == 0.0 { "x" } else { "x1" }, s + Complex::sqrt(dlt)),
+            FunctionResult::new("x2", s - Complex::sqrt(dlt)),
+        );
+        print_function_result(x1);
+        if dlt != 0.0 {
+            print_function_result(x2);
         }
-        let x2: FunctionResult = FunctionResult::new("x2", s - Complex::sqrt(s * s - l));
-        output_function_result(x2)
     }
     pub fn vertex(&mut self) {
         self.update_top();
         if self.top != 2 {
-            output_message("warning.func_has_no_verts");
+            print_message("warning.func_has_no_verts");
             return;
         }
         let x: Complex = -self.coe[1] / (self.coe[2] * 2.0);
         let y: Complex = -self.coe[0] - Complex::pow(self.coe[1] / (self.coe[2] * 2.0), 2);
-        output_point(point!(x, y));
+        print_point(point!(x, y));
     }
     pub fn operate(&mut self, input: &mut SplitWhitespace, op_type: char) {
-        let nxt = input.next();
-        if nxt.is_none() {
-            output_message("error.need_more_arguments");
+        let nxt: &str = if let Some(x) = input.next() {
+            x
+        } else {
+            print_message("error.need_more_arguments");
             return;
-        }
-        let nxt = nxt.unwrap();
-        let mut arg = nxt.to_string();
-        let mut _pos: isize = -1;
-        let coes: usize;
-        let mut num: Complex;
-        if arg.parse::<Complex>().is_ok() {
-            num = arg.parse().unwrap();
-            coes = 0;
+        };
+        let mut arg: String = nxt.to_string();
+        let pos: bool = if let Some(x) = arg.strip_prefix('-') {
+            arg = x.to_string();
+            op_type == 'r'
+        } else {
+            op_type == 'l'
+        };
+        let pos: f64 = if pos { 1.0 } else { -1.0 };
+        let (coes, num) = if let Ok(num) = arg.parse::<Complex>() {
+            (0, num * pos)
         } else {
             let i: char = arg.pop().unwrap_or('0');
-            if i.is_alphabetic() {
-                num = arg
-                    .parse()
-                    .unwrap_or(if arg == "-" { comp!(-1.0) } else { comp!(1.0) });
-                coes = 1;
-            } else {
+            if i.is_ascii_digit() {
                 arg.pop();
-                num = arg
-                    .parse()
-                    .unwrap_or(if arg == "-" { comp!(-1.0) } else { comp!(1.0) });
-                coes = i.to_string().parse().unwrap();
             }
-        }
-        if op_type == 'r' {
-            num = -num;
-        }
-        self.coe[coes] += num;
+            let num: Complex = arg.parse().unwrap_or(comp!(1.0)) * pos;
+            let coes: usize = i.to_string().parse::<usize>().unwrap_or(1);
+            (coes, num)
+        };
+        self.coe[coes] += num
     }
 }
