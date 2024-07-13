@@ -1,17 +1,17 @@
 //Current page: solve
-use crate::libs::expression::Expression;
+use crate::libs::expr::Expr;
 use crate::{
-    libs::output::{command_prompt, print_message},
+    libs::output::{cmd_prompt, print_msg},
     print_help, print_ver,
 };
-use std::{env, io};
 use std::str::SplitWhitespace;
+use std::{env, io};
 
 pub fn solve_main() {
     env::set_var("mathcmd_page", "solve");
-    let mut expr: Expression = Expression::new();
+    let mut expr: Expr = Expr::new();
     loop {
-        command_prompt("mathcmd->solve");
+        cmd_prompt("mathcmd->solve");
         let mut _input = String::new();
         io::stdin().read_line(&mut _input).unwrap();
         let mut input: SplitWhitespace = _input.split_whitespace();
@@ -27,7 +27,7 @@ pub fn solve_main() {
             "version" | "ver" | "v" => print_ver!(),
             "help" | "h" => print_help!(),
             "" => continue,
-            _ => print_message("error.unknown_command"),
+            _ => print_msg("error.unknown_command"),
         }
     }
 }

@@ -3,10 +3,10 @@
 use std::{collections::HashMap, env, io::stdin, str::SplitWhitespace};
 
 use crate::{
-    functions::heron_formula,
+    functions::geometry::heron_formula,
     libs::{
-        complex::Complex,
-        output::{command_prompt, print_result},
+        complex::Comp,
+        output::{cmd_prompt, print_res},
         point::{Line, Point},
     },
     print_help,
@@ -18,24 +18,22 @@ pub fn geo_main() {
     let mut lines: HashMap<String, Line> = HashMap::new();
     let mut input: SplitWhitespace;
     loop {
-        command_prompt("mathcmd->geo");
+        cmd_prompt("mathcmd->geo");
         let mut _input: String = String::new();
         stdin().read_line(&mut _input).unwrap();
         input = _input.split_whitespace();
         if input.clone().count() == 0 {
             continue;
         }
-        let cache: Result<Complex, String> = match input.next().unwrap() {
+        let cache: Result<Comp, String> = match input.next().unwrap() {
             "point" => match (input.next(), input.next(), input.next()) {
-                (Some(name), Some(x), Some(y)) => {
-                    match (x.parse::<Complex>(), y.parse::<Complex>()) {
-                        (Ok(x), Ok(y)) => {
-                            points.insert(name.to_owned(), Point::new(x, y));
-                            Err(String::from("none"))
-                        }
-                        _ => Err("error.invalid_argument".to_string()),
+                (Some(name), Some(x), Some(y)) => match (x.parse::<Comp>(), y.parse::<Comp>()) {
+                    (Ok(x), Ok(y)) => {
+                        points.insert(name.to_owned(), Point::new(x, y));
+                        Err(String::from("none"))
                     }
-                }
+                    _ => Err("error.invalid_argument".to_string()),
+                },
                 _ => Err("error.need_more_arguments".to_string()),
             },
             "line" => match (input.next(), input.next(), input.next()) {
@@ -71,6 +69,6 @@ pub fn geo_main() {
             }
             _ => Err(String::from("error.unknown_command")),
         };
-        print_result(cache);
+        print_res(cache);
     }
 }

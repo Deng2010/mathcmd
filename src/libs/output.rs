@@ -1,12 +1,10 @@
-use crate::{libs::complex::Complex, libs::expression::FunctionResult, libs::point::Point};
+use crate::{libs::complex::Comp, libs::expr::FuncRes, libs::point::Point};
 use colored::*;
 use std::io::{self, BufWriter, Write};
-pub fn command_prompt(_current: &str) {
-    let mut handle = BufWriter::new(io::stdout());
-    writeln!(handle, "{}", _current.bold().bright_green()).unwrap();
-    write!(handle, "{} ", ">".bright_cyan()).unwrap();
-    handle.flush().unwrap();
-}
+const ERROR: char = 'e';
+const WARNING: char = 'w';
+const INFO: char = 'i';
+const RESULT: char = 'r';
 
 #[macro_export]
 macro_rules! print_ver {
@@ -14,6 +12,7 @@ macro_rules! print_ver {
         println!("mathcmd {}", env!("CARGO_PKG_VERSION"))
     };
 }
+
 #[macro_export]
 macro_rules! print_help {
     () => {
@@ -23,30 +22,57 @@ macro_rules! print_help {
         )
     };
 }
-pub fn print_message(_message: &str) {
+
+fn colorize(msg: String, msg_type: char) -> ColoredString {
+    match msg_type {
+        ERROR => msg.bold().red(),
+        WARNING => msg.bold().yellow(),
+        RESULT => msg.bold().cyan(),
+        _ => msg.bold().italic().bright_cyan(),
+    }
+}
+
+fn colorize_t(msg: &str, msg_type: char) -> ColoredString {
+    colorize(t!(msg).to_string(), msg_type)
+}
+
+pub fn cmd_prompt(current: &str) {
+    let mut handle = BufWriter::new(io::stdout());
+    write!(handle, "{}\n> ", current.bold().bright_green()).unwrap();
+    handle.flush().unwrap();
+}
+
+pub fn print_msg(msg: &str) {
     let mut handle = BufWriter::new(io::stderr());
-    if _message.starts_with("error") {
-        writeln!(handle, "{}", t!(_message).bold().red()).unwrap();
-    } else if _message.starts_with("warning") {
-        writeln!(handle, "{}", t!(_message).bold().yellow()).unwrap();
-    } else if _message != "none" {
-        writeln!(handle, "{}", t!(_message).bold().italic().bright_cyan()).unwrap();
+    if msg.starts_with("error") {
+        writeln!(handle, "{}", colorize_t(msg, ERROR)).unwrap();
+    } else if msg.starts_with("warning") {
+        writeln!(handle, "{}", colorize_t(msg, WARNING)).unwrap();
+    } else if msg != "none" {
+        writeln!(handle, "{}", colorize_t(msg, INFO)).unwrap();
     }
 }
-pub fn print_result(_result: Result<Complex, String>) {
-    match _result {
-        Ok(x) => println!("{} {}", "=".bold().cyan(), x.to_string().bold().cyan()),
-        Err(e) => print_message(e.as_str()),
+
+pub fn print_res(res: Result<Comp, String>) {
+    match res {
+        Ok(x) => println!(
+            "{} {}",
+            colorize(String::from("="), RESULT),
+            colorize(x.to_string(), RESULT)
+        ),
+        Err(e) => print_msg(e.as_str()),
     }
 }
-pub fn print_point(_point: Point) {
-    println!("{}", _point.to_string().bold().cyan());
+
+pub fn print_pt(pt: Point) {
+    println!("{}", colorize(pt.to_string(), RESULT));
 }
-pub fn print_function_result(_result: FunctionResult) {
+
+pub fn print_func_res(res: FuncRes) {
     println!(
         "{} {} {}",
-        _result.get_name().bold().cyan(),
-        "=".bold().cyan(),
-        _result.get_result().to_string().bold().cyan()
+        colorize(res.get_name(), RESULT),
+        colorize(String::from("="), RESULT),
+        colorize(res.get_result().to_string(), RESULT)
     );
 }

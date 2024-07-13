@@ -1,18 +1,18 @@
 use std::fmt::{self, Display};
 
-use crate::libs::complex::Complex;
+use crate::libs::complex::Comp;
 
 /// A point in the complex plane.
 #[derive(PartialEq, Copy, Clone, Debug, Default)]
 pub struct Point {
     /// The complex `x` coordinate.
-    pub x: Complex,
+    pub x: Comp,
     /// The complex `y` coordinate.
-    pub y: Complex,
+    pub y: Comp,
 }
 impl Point {
     /// Construct a new point with the given complex coordinates.
-    pub fn new(x: Complex, y: Complex) -> Self {
+    pub fn new(x: Comp, y: Comp) -> Self {
         Point { x, y }
     }
 }
@@ -52,9 +52,9 @@ impl Line {
         Ok(Line::new(x.unwrap().to_owned(), y.unwrap().to_owned()))
     }
     /// Calculate the distance between the two points of the line.
-    pub fn dis(&self) -> Complex {
-        let sqrt = Complex::sqrt;
-        let pow = Complex::pow;
+    pub fn dis(&self) -> Comp {
+        let sqrt = Comp::sqrt;
+        let pow = Comp::pow;
         sqrt(pow(self.a.x - self.b.x, 2) + pow(self.a.y - self.b.y, 2))
     }
 }

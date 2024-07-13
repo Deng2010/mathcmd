@@ -1,29 +1,29 @@
 //Current page: calc
 
+use crate::functions::algebra::{cbrt, lg, ln, sqrt};
 use std::{env, io, str::SplitWhitespace};
 
 use crate::{
     comp, err,
-    functions::*,
     libs::{
         complex::{
             consts::{CE, CPI, CTAU},
-            Complex,
+            Comp,
         },
         memory::Memory,
-        output::{command_prompt, print_result},
+        output::{cmd_prompt, print_res},
     },
     print_help, print_ver,
 };
 
 pub fn calculator<'a>(
-    lhs: Complex,
+    lhs: Comp,
     rhs: Option<&'a str>,
     op: Option<&'a str>,
-) -> Result<Complex, String> {
+) -> Result<Comp, String> {
     if let Some(op) = op {
         if let Some(rhs) = rhs {
-            if let Ok(rhs) = rhs.to_owned().parse::<Complex>() {
+            if let Ok(rhs) = rhs.to_owned().parse::<Comp>() {
                 match op {
                     "+" => Ok(lhs + rhs),
                     "-" => Ok(lhs - rhs),
@@ -31,7 +31,7 @@ pub fn calculator<'a>(
                     "/" => Ok(lhs / rhs),
                     "//" => Ok(comp!((lhs / rhs).to_num().floor())),
                     "%" => Ok(comp!(lhs.to_num() % rhs.to_num())),
-                    "^" | "**" => Ok(Complex::pow(lhs, rhs.to_num() as u32)),
+                    "^" | "**" => Ok(Comp::pow(lhs, rhs.to_num() as u32)),
                     "log" => Ok(comp!(f64::log(lhs.to_num(), rhs.to_num()))),
                     _ => err!("error.unsupported_operator"),
                 }
@@ -50,11 +50,11 @@ static OPERATOR_MAP: &[&str; 9] = &["+", "-", "*", "**", "/", "//", "^", "%", "l
 
 pub fn calc_main() {
     env::set_var("mathcmd_page", "calc");
-    let mut cache: Complex = comp!();
+    let mut cache: Comp = comp!();
     let mut mem: Memory = Memory::new();
     let mut input: SplitWhitespace;
     loop {
-        command_prompt("mathcmd->calc");
+        cmd_prompt("mathcmd->calc");
         let mut reading: String = String::new();
         io::stdin()
             .read_line(&mut reading)
@@ -65,7 +65,7 @@ pub fn calc_main() {
         }
         let command: &str = input.next().unwrap();
         let (command, op, nxt): (&str, Option<&str>, Option<&str>) =
-            if let Ok(lhs) = command.parse::<Complex>() {
+            if let Ok(lhs) = command.parse::<Comp>() {
                 cache = lhs;
                 ("expr", input.next(), input.next())
             } else if OPERATOR_MAP.contains(&command) {
@@ -74,7 +74,7 @@ pub fn calc_main() {
             } else {
                 (command, None, input.next())
             };
-        let _cache: Result<Complex, String> = match command {
+        let _cache: Result<Comp, String> = match command {
             "expr" => calculator(cache, nxt, op),
             "lg" => lg(nxt),
             "ln" => ln(nxt),
@@ -102,6 +102,6 @@ pub fn calc_main() {
         if let Ok(x) = _cache {
             cache = x;
         }
-        print_result(_cache);
+        print_res(_cache);
     }
 }

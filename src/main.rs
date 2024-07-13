@@ -21,7 +21,7 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Choose modules  
+    /// Choose modules
     #[command(subcommand)]
     modules: Option<Modules>,
 }

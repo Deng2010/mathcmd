@@ -15,7 +15,7 @@
     "[toml]": {
         "editor.defaultFormatter": "tamasfe.even-better-toml"
     },
-    "editor.fontSize": 16,
+    "editor.fontSize": 10,
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
